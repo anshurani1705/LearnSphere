@@ -1,0 +1,147 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  application:
+    name: skillforge-lms
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:diyarani589@gmail.com}
+    password: ${MAIL_PASSWORD:zrcbbiswecymmzsd}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/skillforge_lms?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Anshu@1705}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          time_zone: UTC
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# Application Configuration
+app:
+  name: ${APP_NAME:SkillForge}
+  base-url: ${APP_BASE_URL:http://localhost:5173}
+  api-base-url: ${APP_API_BASE_URL:http://localhost:8080/api}
+
+  jwt:
+    secret: ${JWT_SECRET:CHANGE_ME_IN_PRODUCTION_USE_A_LONG_RANDOM_SECRET_KEY_AT_LEAST_256_BITS}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000}
+    cookie-name: ${JWT_COOKIE_NAME:sf_token}
+    cookie-secure: ${JWT_COOKIE_SECURE:false}
+    cookie-domain: ${JWT_COOKIE_DOMAIN:localhost}
+
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:*,http://127.0.0.1:*,http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176,http://localhost:5177,http://localhost:5178}
+
+  payment:
+    provider: ${PAYMENT_PROVIDER:razorpay}
+    mock-enabled: ${PAYMENT_MOCK_ENABLED:true}
+
+  razorpay:
+    key-id: ${RAZORPAY_KEY_ID:rzp_test_Trq3jJhHLpT7MS}
+    key-secret: ${RAZORPAY_KEY_SECRET:1bn4pW58Og2pUM0uh68eXSEP}
+    webhook-secret: ${RAZORPAY_WEBHOOK_SECRET:}
+    currency: ${RAZORPAY_CURRENCY:INR}
+
+  aws:
+    access-key: ${AWS_ACCESS_KEY_ID:}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}
+    region: ${AWS_REGION:ap-south-1}
+    s3:
+      bucket: ${AWS_S3_BUCKET:skillforge-lms}
+      presigned-url-expiry-minutes: ${S3_URL_EXPIRY_MINUTES:60}
+
+  email:
+    provider: ${EMAIL_PROVIDER:smtp}
+    from: ${EMAIL_FROM:diyarani589@gmail.com}
+    from-name: ${EMAIL_FROM_NAME:SkillForge}
+    resend-api-key: ${RESEND_API_KEY:}
+
+  sms:
+    provider: ${SMS_PROVIDER:msg91}
+    msg91-auth-key: ${MSG91_AUTH_KEY:}
+    msg91-template-id: ${MSG91_TEMPLATE_ID:}
+    msg91-sender-id: ${MSG91_SENDER_ID:SKLFRG}
+    otp-expiry-seconds: ${OTP_EXPIRY_SECONDS:300}
+    otp-max-attempts: ${OTP_MAX_ATTEMPTS:5}
+    otp-resend-cooldown-seconds: ${OTP_RESEND_COOLDOWN_SECONDS:30}
+
+  whatsapp:
+    access-token: ${WHATSAPP_ACCESS_TOKEN:}
+    phone-number-id: ${WHATSAPP_PHONE_NUMBER_ID:}
+    api-version: ${WHATSAPP_API_VERSION:v18.0}
+    verify-token: ${WHATSAPP_VERIFY_TOKEN:}
+
+  certificate:
+    storage-path: ${CERT_STORAGE_PATH:certificates/}
+    company-name: ${CERT_COMPANY_NAME:SkillForge Academy}
+    signatory-name: ${CERT_SIGNATORY_NAME:}
+    signatory-title: ${CERT_SIGNATORY_TITLE:Director of Education}
+
+  admin:
+    bootstrap-email: ${ADMIN_BOOTSTRAP_EMAIL:admin@skillforge.com}
+    bootstrap-password: ${ADMIN_BOOTSTRAP_PASSWORD:Admin@123}
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+# Logging
+logging:
+  level:
+    com.skillforge: DEBUG
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# OpenAPI
+springdoc:
+  api-docs:
+    path: /v1/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha

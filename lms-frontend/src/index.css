@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white;
+  }
+}
+
+@layer utilities {
+  /* Restrained, professional brand text gradient (Oxford Navy to Cobalt) */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-blue-700;
+  }
+  .text-gradient-purple {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-indigo-700;
+  }
+  .text-gradient-light {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-blue-200;
+  }
+
+  /* Solid, high-contrast surfaces over frosted glass */
+  .surface-card {
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm hover:border-slate-300 transition-colors;
+  }
+  .surface-card-interactive {
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm hover:border-slate-300 hover:shadow-md transition-all duration-200;
+  }
+
+  /* Backward-compatible wrappers mapped to clean solid/subtle surfaces */
+  .glass-card {
+    @apply bg-white border border-slate-200 rounded-lg shadow-sm hover:border-slate-300 transition-colors;
+  }
+  .glass-card-dark {
+    @apply bg-slate-900 border border-slate-800 rounded-lg shadow-md;
+  }
+  .glass-navbar {
+    @apply bg-white/95 backdrop-blur-md border-b border-slate-200;
+  }
+  .badge-glow {
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  }
+
+  /* Accessible focus ring token */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2;
+  }
+}
+
+/* Custom Minimalist Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Subtle, tactile card hover */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  border-color: #cbd5e1;
+}

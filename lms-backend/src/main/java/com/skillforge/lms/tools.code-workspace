@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../../../tools"
+		},
+		{
+			"path": "../../../../../../../lms-frontend"
+		},
+		{
+			"path": "../../../../../.."
+		},
+		{
+			"path": "../../../../../../../.vscode"
+		}
+	],
+	"settings": {
+		"java.debug.settings.onBuildFailureProceed": true
+	}
+}
