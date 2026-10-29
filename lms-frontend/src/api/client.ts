@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-// Dynamically use the remote backend URL if provided in production, otherwise default to local '/api'
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
+// In production, fallback directly to your live Render backend URL so Vercel never returns 404
+const baseURL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD
+    ? 'https://learnsphere-1-jj07.onrender.com/api'
+    : '/api');
 
 export const api = axios.create({
   baseURL,
