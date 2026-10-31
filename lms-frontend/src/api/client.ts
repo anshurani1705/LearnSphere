@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-// In production, fallback directly to your live Render backend URL so Vercel never returns 404
+// Resolve backend URL safely across development and production
+const metaEnv = (import.meta as any).env || {};
 const baseURL =
-  import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.PROD
+  metaEnv.VITE_API_BASE_URL ||
+  (metaEnv.PROD
     ? 'https://learnsphere-1-jj07.onrender.com/api'
     : '/api');
 
