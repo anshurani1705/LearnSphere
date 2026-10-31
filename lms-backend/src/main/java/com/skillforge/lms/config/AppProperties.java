@@ -72,6 +72,7 @@ public class AppProperties {
         private String from;
         private String fromName;
         private String resendApiKey;
+        private String brevoApiKey;
     }
 
     @Getter @Setter

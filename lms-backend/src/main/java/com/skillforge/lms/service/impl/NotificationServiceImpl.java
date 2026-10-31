@@ -53,9 +53,39 @@ public class NotificationServiceImpl implements NotificationService {
 
         try {
             var emailConfig = appProperties.getEmail();
+            boolean isBrevo = ("brevo".equalsIgnoreCase(emailConfig.getProvider()) || !StringUtils.hasText(emailConfig.getResendApiKey())) && StringUtils.hasText(emailConfig.getBrevoApiKey());
             boolean isResend = "resend".equalsIgnoreCase(emailConfig.getProvider()) && StringUtils.hasText(emailConfig.getResendApiKey());
 
-            if (isResend) {
+            if (isBrevo) {
+                // Brevo (Sendinblue) Transactional Email API (HTTPS Port 443 - Never blocked by Render)
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.set("api-key", emailConfig.getBrevoApiKey());
+                headers.set("Accept", "application/json");
+
+                String fromAddress = StringUtils.hasText(emailConfig.getFrom()) ? emailConfig.getFrom() : "diyarani589@gmail.com";
+                String fromName = StringUtils.hasText(emailConfig.getFromName()) ? emailConfig.getFromName() : "SkillForge";
+
+                Map<String, Object> payload = Map.of(
+                        "sender", Map.of("name", fromName, "email", fromAddress),
+                        "to", List.of(Map.of("email", to)),
+                        "subject", subject,
+                        "htmlContent", bodyHtml
+                );
+
+                HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
+                ResponseEntity<String> response = restTemplate.postForEntity(
+                        "https://api.brevo.com/v3/smtp/email", request, String.class);
+
+                if (response.getStatusCode().is2xxSuccessful()) {
+                    notifLog.setStatus(NotificationLog.NotifStatus.SENT);
+                    notifLog.setProviderMessageId(response.getBody());
+                    log.info("Email successfully delivered via Brevo API to {}", to);
+                } else {
+                    notifLog.setStatus(NotificationLog.NotifStatus.FAILED);
+                    notifLog.setErrorMessage("Brevo API error: " + response.getStatusCode());
+                }
+            } else if (isResend) {
                 // Resend API integration
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
