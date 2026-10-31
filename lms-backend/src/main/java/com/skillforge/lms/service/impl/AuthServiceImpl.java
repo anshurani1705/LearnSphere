@@ -312,7 +312,7 @@ public class AuthServiceImpl implements AuthService {
                 .secure(jwtConfig.isCookieSecure())
                 .path("/")
                 .maxAge(jwtConfig.getExpirationMs() / 1000)
-                .sameSite("Lax")
+                .sameSite("None").secure(true)
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
@@ -325,7 +325,7 @@ public class AuthServiceImpl implements AuthService {
                 .secure(jwtConfig.isCookieSecure())
                 .path("/")
                 .maxAge(0)
-                .sameSite("Lax")
+                .sameSite("None").secure(true)
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }

@@ -16,6 +16,15 @@ export const api = axios.create({
   },
 });
 
+// Request interceptor: Attach JWT token from localStorage as Bearer header
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = 'Bearer ' + token;
+  }
+  return config;
+});
+
 // Response interceptor to unwrap data and handle 401
 api.interceptors.response.use(
   (response) => response,
