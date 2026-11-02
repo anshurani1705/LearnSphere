@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '../context/AuthContext';
-import { GraduationCap, Lock, Mail, User, Phone, AlertCircle, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { GraduationCap, Lock, Mail, User, Phone, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
+import { Alert } from '../components/ui/Alert';
 
 const registerSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
@@ -20,6 +21,7 @@ export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -43,113 +45,122 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 bg-slate-50 relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-md w-full bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-xl relative z-10 space-y-6">
+    <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8]">
+      <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-lg border border-[#E5E7EB] shadow-card space-y-6">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center space-x-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/25">
-              <GraduationCap className="w-6 h-6" />
+          <Link to="/" className="inline-flex items-center space-x-2 group">
+            <div className="w-8 h-8 rounded-md bg-[#172B4D] flex items-center justify-center text-white">
+              <GraduationCap className="w-5 h-5 text-teal-300" />
             </div>
-            <span className="font-black text-2xl tracking-tight text-slate-900">
-              Skill<span className="text-indigo-600">Forge</span>
+            <span className="font-bold text-xl tracking-tight text-[#172B4D]">
+              Skill<span className="text-[#287C78]">Forge</span>
             </span>
           </Link>
-          <h2 className="mt-5 text-2xl font-black text-slate-900 tracking-tight">Create your student account</h2>
-          <p className="mt-1 text-xs text-slate-500">
+          <h2 className="mt-4 text-xl font-bold text-[#20252B] tracking-tight">Create your student account</h2>
+          <p className="mt-1 text-xs text-[#697386]">
             Already have an account?{' '}
-            <Link to="/login" className="font-bold text-indigo-600 hover:text-indigo-500">
+            <Link to="/login" className="font-medium text-[#287C78] hover:underline">
               Sign in
             </Link>
           </p>
         </div>
 
         {serverError && (
-          <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-            <span>{serverError}</span>
-          </div>
+          <Alert type="error" message={serverError} />
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
               Full Name
             </label>
             <div className="relative">
-              <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <User className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 {...register('fullName')}
                 placeholder="Priya Sharma"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-slate-900 transition"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
               />
             </div>
             {errors.fullName && <p className="text-xs text-rose-600 mt-1">{errors.fullName.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="email"
                 {...register('email')}
                 placeholder="you@example.com"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-slate-900 transition"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
               />
             </div>
             {errors.email && <p className="text-xs text-rose-600 mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Mobile Number (Optional)
+            <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
+              Password
             </label>
             <div className="relative">
-              <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
-                type="tel"
-                {...register('phone')}
-                placeholder="+91 98765 43210"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-slate-900 transition"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Password (min 8 characters)
-            </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 {...register('password')}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 text-slate-900 transition"
+                placeholder="At least 8 characters"
+                className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
             </div>
             {errors.password && <p className="text-xs text-rose-600 mt-1">{errors.password.message}</p>}
           </div>
 
+          <div>
+            <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
+              Phone Number <span className="text-[#697386] font-normal">(Optional)</span>
+            </label>
+            <div className="relative">
+              <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="tel"
+                {...register('phone')}
+                placeholder="+91 9876543210"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
+              />
+            </div>
+          </div>
+
+          <p className="text-[11px] text-[#697386] leading-relaxed">
+            By creating an account, you agree to our{' '}
+            <Link to="/terms" className="text-[#287C78] underline">Terms of Service</Link>{' '}
+            and{' '}
+            <Link to="/privacy" className="text-[#287C78] underline">Privacy Policy</Link>.
+          </p>
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-extrabold py-3 rounded-xl text-sm shadow-md shadow-indigo-600/25 hover:shadow-lg hover:shadow-indigo-600/35 transition-all disabled:opacity-50 flex items-center justify-center space-x-2"
+            className="w-full bg-[#172B4D] hover:bg-[#0F1E36] text-white font-medium py-2.5 rounded-md text-xs sm:text-sm shadow-sm transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Creating account...</span>
+                <span>Creating Account...</span>
               </>
             ) : (
               <>
-                <span>Get Started Now</span>
+                <span>Create Student Account</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}

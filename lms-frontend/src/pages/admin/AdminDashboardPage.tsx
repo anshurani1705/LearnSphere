@@ -3,21 +3,19 @@ import { Link } from 'react-router-dom';
 import { api } from '../../api/client';
 import { DashboardStats } from '../../types';
 import { AdminNav } from '../../components/AdminNav';
+import { Badge } from '../../components/ui/Badge';
 import {
   Users,
   BookOpen,
   GraduationCap,
-  CreditCard,
   Award,
   IndianRupee,
-  TrendingUp,
   Clock,
   CheckCircle2,
-  AlertCircle,
   Archive,
   EyeOff,
-  Layers,
   ArrowRight,
+  TrendingUp,
 } from 'lucide-react';
 
 export const AdminDashboardPage: React.FC = () => {
@@ -41,194 +39,198 @@ export const AdminDashboardPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex-1 bg-slate-50 min-h-screen">
+    <div className="flex-1 bg-[#FAFAF8] min-h-screen">
       <AdminNav />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        {/* Page Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-[#E5E7EB]">
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Company Administrator Dashboard</h1>
-            <p className="text-slate-500 text-sm mt-1">
-              Live enterprise management for company-owned courses, students, orders, and verified completion credentials.
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#20252B] tracking-tight">
+              Administration Overview
+            </h1>
+            <p className="text-xs sm:text-sm text-[#697386] mt-1">
+              Real-time telemetry and management for courses, students, orders, and credentials.
             </p>
           </div>
           <Link
             to="/admin/courses/create"
-            className="inline-flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl shadow transition"
+            className="inline-flex items-center space-x-1.5 bg-[#172B4D] hover:bg-[#0F1E36] text-white font-medium text-xs sm:text-sm px-4 py-2 rounded-lg shadow-sm transition-colors shrink-0"
           >
-            <span>+ Create New Course</span>
+            <span>+ Create Course</span>
           </Link>
         </div>
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#172B4D] border-t-transparent"></div>
           </div>
         ) : (
           <>
-            {/* Top Revenue & Primary Volume Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            {/* Top Primary Volume & Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-white p-5 rounded-lg border border-[#E5E7EB] shadow-card">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Verified Revenue</span>
-                  <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
-                    <IndianRupee className="w-5 h-5" />
+                  <span className="text-xs font-semibold text-[#697386] uppercase tracking-wider">
+                    Verified Revenue
+                  </span>
+                  <div className="w-8 h-8 bg-emerald-50 text-emerald-700 rounded-md flex items-center justify-center">
+                    <IndianRupee className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-3xl font-extrabold text-slate-900">
+                <p className="text-2xl sm:text-3xl font-bold text-[#20252B]">
                   ₹{(stats?.totalRevenue || 0).toLocaleString('en-IN')}
                 </p>
-                <p className="text-xs text-emerald-600 font-semibold mt-1 flex items-center">
-                  <TrendingUp className="w-3.5 h-3.5 mr-1" /> Captured via Razorpay Gateway
+                <p className="text-xs text-emerald-700 font-medium mt-1 flex items-center gap-1">
+                  <TrendingUp className="w-3.5 h-3.5" /> Razorpay Processed
                 </p>
-                {stats?.mockRevenue !== undefined && stats.mockRevenue > 0 && (
-                  <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg">
-                    <span className="font-semibold">🧪 Dev Mock Volume:</span>
-                    <span className="font-bold font-mono">₹{stats.mockRevenue.toLocaleString('en-IN')}</span>
-                  </div>
-                )}
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="bg-white p-5 rounded-lg border border-[#E5E7EB] shadow-card">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Registered Students</span>
-                  <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
-                    <Users className="w-5 h-5" />
+                  <span className="text-xs font-semibold text-[#697386] uppercase tracking-wider">
+                    Registered Students
+                  </span>
+                  <div className="w-8 h-8 bg-slate-100 text-[#172B4D] rounded-md flex items-center justify-center">
+                    <Users className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-3xl font-extrabold text-slate-900">{stats?.totalStudents || 0}</p>
-                <p className="text-xs text-slate-500 mt-1">Verified student accounts in MySQL</p>
+                <p className="text-2xl sm:text-3xl font-bold text-[#20252B]">{stats?.totalStudents || 0}</p>
+                <p className="text-xs text-[#697386] mt-1">Verified student accounts</p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="bg-white p-5 rounded-lg border border-[#E5E7EB] shadow-card">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Enrollments</span>
-                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
-                    <GraduationCap className="w-5 h-5" />
+                  <span className="text-xs font-semibold text-[#697386] uppercase tracking-wider">
+                    Total Enrollments
+                  </span>
+                  <div className="w-8 h-8 bg-blue-50 text-blue-700 rounded-md flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-3xl font-extrabold text-slate-900">{stats?.totalEnrollments || 0}</p>
-                <p className="text-xs text-slate-500 mt-1">Active course access records</p>
+                <p className="text-2xl sm:text-3xl font-bold text-[#20252B]">{stats?.totalEnrollments || 0}</p>
+                <p className="text-xs text-[#697386] mt-1">Active course access records</p>
               </div>
 
-              <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+              <div className="bg-white p-5 rounded-lg border border-[#E5E7EB] shadow-card">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Certificates Issued</span>
-                  <div className="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-teal-600">
-                    <Award className="w-5 h-5" />
+                  <span className="text-xs font-semibold text-[#697386] uppercase tracking-wider">
+                    Certificates Issued
+                  </span>
+                  <div className="w-8 h-8 bg-teal-50 text-[#287C78] rounded-md flex items-center justify-center">
+                    <Award className="w-4 h-4" />
                   </div>
                 </div>
-                <p className="text-3xl font-extrabold text-slate-900">{stats?.totalCertificatesIssued || 0}</p>
-                <p className="text-xs text-slate-500 mt-1">Cryptographically authenticated PDFs</p>
+                <p className="text-2xl sm:text-3xl font-bold text-[#20252B]">{stats?.totalCertificatesIssued || 0}</p>
+                <p className="text-xs text-[#697386] mt-1">Verifiable completion credentials</p>
               </div>
             </div>
 
-            {/* Course & Transaction Breakdown Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            {/* Course Status Summary Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+              <div className="bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-subtle flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-slate-400 uppercase">Total Courses</p>
-                  <p className="text-2xl font-black text-slate-900 mt-0.5">{stats?.totalCourses || 0}</p>
+                  <p className="text-xs font-medium text-[#697386]">Total Courses</p>
+                  <p className="text-xl font-bold text-[#20252B] mt-0.5">{stats?.totalCourses || 0}</p>
                 </div>
-                <BookOpen className="w-7 h-7 text-indigo-500" />
+                <BookOpen className="w-5 h-5 text-slate-400" />
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div className="bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-subtle flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-emerald-600 uppercase">Published</p>
-                  <p className="text-2xl font-black text-emerald-700 mt-0.5">{stats?.publishedCourses || 0}</p>
+                  <p className="text-xs font-medium text-emerald-700">Published</p>
+                  <p className="text-xl font-bold text-emerald-700 mt-0.5">{stats?.publishedCourses || 0}</p>
                 </div>
-                <CheckCircle2 className="w-7 h-7 text-emerald-500" />
+                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div className="bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-subtle flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-amber-600 uppercase">Drafts</p>
-                  <p className="text-2xl font-black text-amber-700 mt-0.5">{stats?.draftCourses || 0}</p>
+                  <p className="text-xs font-medium text-amber-700">Drafts</p>
+                  <p className="text-xl font-bold text-amber-700 mt-0.5">{stats?.draftCourses || 0}</p>
                 </div>
-                <Clock className="w-7 h-7 text-amber-500" />
+                <Clock className="w-5 h-5 text-amber-500" />
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div className="bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-subtle flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-slate-500 uppercase">Unpublished</p>
-                  <p className="text-2xl font-black text-slate-700 mt-0.5">{stats?.unpublishedCourses || 0}</p>
+                  <p className="text-xs font-medium text-[#697386]">Unpublished</p>
+                  <p className="text-xl font-bold text-slate-700 mt-0.5">{stats?.unpublishedCourses || 0}</p>
                 </div>
-                <EyeOff className="w-7 h-7 text-slate-400" />
+                <EyeOff className="w-5 h-5 text-slate-400" />
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+              <div className="bg-white p-4 rounded-lg border border-[#E5E7EB] shadow-subtle flex items-center justify-between col-span-2 sm:col-span-1">
                 <div>
-                  <p className="text-xs font-bold text-rose-500 uppercase">Archived</p>
-                  <p className="text-2xl font-black text-rose-700 mt-0.5">{stats?.archivedCourses || 0}</p>
+                  <p className="text-xs font-medium text-rose-700">Archived</p>
+                  <p className="text-xl font-bold text-rose-700 mt-0.5">{stats?.archivedCourses || 0}</p>
                 </div>
-                <Archive className="w-7 h-7 text-rose-400" />
+                <Archive className="w-5 h-5 text-rose-500" />
               </div>
             </div>
 
             {/* Course Performance Table */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm mb-8 overflow-hidden">
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+            <div className="bg-white rounded-lg border border-[#E5E7EB] shadow-card mb-8 overflow-hidden">
+              <div className="p-5 border-b border-[#E5E7EB] flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">Course Performance & Enrollment Statistics</h2>
-                  <p className="text-xs text-slate-500 mt-0.5">Real-time statistics per company course from MySQL</p>
+                  <h2 className="text-base font-semibold text-[#20252B]">Course Enrollment Breakdown</h2>
+                  <p className="text-xs text-[#697386] mt-0.5">Live performance metrics per course from database</p>
                 </div>
                 <Link
                   to="/admin/courses"
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center space-x-1"
+                  className="text-xs font-medium text-[#172B4D] hover:underline flex items-center space-x-1"
                 >
-                  <span>Manage All Courses</span>
+                  <span>Manage Courses</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600">
-                  <thead className="bg-slate-50 text-xs uppercase font-bold text-slate-500 border-b border-slate-200">
+                <table className="w-full text-left text-xs sm:text-sm text-[#20252B]">
+                  <thead className="bg-slate-50 text-[11px] uppercase font-semibold text-[#697386] border-b border-[#E5E7EB]">
                     <tr>
-                      <th className="px-6 py-3.5">Course Title</th>
-                      <th className="px-6 py-3.5">Category</th>
-                      <th className="px-6 py-3.5">Price</th>
-                      <th className="px-6 py-3.5">Status</th>
-                      <th className="px-6 py-3.5 text-center">Enrollments</th>
-                      <th className="px-6 py-3.5 text-right">Captured Revenue</th>
+                      <th className="px-5 py-3">Course Title</th>
+                      <th className="px-5 py-3">Category</th>
+                      <th className="px-5 py-3">Price</th>
+                      <th className="px-5 py-3">Status</th>
+                      <th className="px-5 py-3 text-center">Enrollments</th>
+                      <th className="px-5 py-3 text-right">Captured Revenue</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-[#E5E7EB]">
                     {stats?.coursePerformance && stats.coursePerformance.length > 0 ? (
                       stats.coursePerformance.map((c) => (
-                        <tr key={c.courseId} className="hover:bg-slate-50 transition">
-                          <td className="px-6 py-4 font-semibold text-slate-900">{c.title}</td>
-                          <td className="px-6 py-4">
-                            <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md text-xs font-medium">
+                        <tr key={c.courseId} className="hover:bg-slate-50/70 transition-colors">
+                          <td className="px-5 py-3.5 font-medium text-[#20252B]">{c.title}</td>
+                          <td className="px-5 py-3.5">
+                            <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">
                               {c.category || 'General'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 font-mono">₹{c.price.toLocaleString('en-IN')}</td>
-                          <td className="px-6 py-4">
-                            <span
-                              className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                          <td className="px-5 py-3.5 font-mono text-xs">₹{c.price.toLocaleString('en-IN')}</td>
+                          <td className="px-5 py-3.5">
+                            <Badge
+                              variant={
                                 c.status === 'PUBLISHED'
-                                  ? 'bg-emerald-100 text-emerald-800'
+                                  ? 'success'
                                   : c.status === 'DRAFT'
-                                  ? 'bg-amber-100 text-amber-800'
-                                  : c.status === 'UNPUBLISHED'
-                                  ? 'bg-slate-200 text-slate-800'
-                                  : 'bg-rose-100 text-rose-800'
-                              }`}
+                                  ? 'warning'
+                                  : 'neutral'
+                              }
+                              size="sm"
                             >
                               {c.status}
-                            </span>
+                            </Badge>
                           </td>
-                          <td className="px-6 py-4 text-center font-bold text-slate-800">{c.enrollmentCount}</td>
-                          <td className="px-6 py-4 text-right font-mono font-bold text-emerald-700">
+                          <td className="px-5 py-3.5 text-center font-semibold text-[#20252B]">{c.enrollmentCount}</td>
+                          <td className="px-5 py-3.5 text-right font-mono font-semibold text-emerald-700">
                             ₹{c.totalRevenue.toLocaleString('en-IN')}
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-slate-400 text-sm">
+                        <td colSpan={6} className="px-5 py-8 text-center text-[#697386] text-xs">
                           No course records found in database.
                         </td>
                       </tr>
@@ -239,15 +241,15 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
 
             {/* Recent Orders Table */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+            <div className="bg-white rounded-lg border border-[#E5E7EB] shadow-card overflow-hidden">
+              <div className="p-5 border-b border-[#E5E7EB] flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">Recent Checkout Orders</h2>
-                  <p className="text-xs text-slate-500 mt-0.5">Latest purchase attempts and captured transactions</p>
+                  <h2 className="text-base font-semibold text-[#20252B]">Recent Transactions</h2>
+                  <p className="text-xs text-[#697386] mt-0.5">Latest enrollments and order statuses</p>
                 </div>
                 <Link
                   to="/admin/orders"
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center space-x-1"
+                  className="text-xs font-medium text-[#172B4D] hover:underline flex items-center space-x-1"
                 >
                   <span>View All Orders</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -255,61 +257,60 @@ export const AdminDashboardPage: React.FC = () => {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-slate-600">
-                  <thead className="bg-slate-50 text-xs uppercase font-bold text-slate-500 border-b border-slate-200">
+                <table className="w-full text-left text-xs sm:text-sm text-[#20252B]">
+                  <thead className="bg-slate-50 text-[11px] uppercase font-semibold text-[#697386] border-b border-[#E5E7EB]">
                     <tr>
-                      <th className="px-6 py-3.5">Order Number</th>
-                      <th className="px-6 py-3.5">Student</th>
-                      <th className="px-6 py-3.5">Course</th>
-                      <th className="px-6 py-3.5">Amount</th>
-                      <th className="px-6 py-3.5">Provider</th>
-                      <th className="px-6 py-3.5">Status</th>
-                      <th className="px-6 py-3.5">Date</th>
+                      <th className="px-5 py-3">Order #</th>
+                      <th className="px-5 py-3">Student</th>
+                      <th className="px-5 py-3">Course</th>
+                      <th className="px-5 py-3">Amount</th>
+                      <th className="px-5 py-3">Provider</th>
+                      <th className="px-5 py-3">Status</th>
+                      <th className="px-5 py-3 text-right">Date</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-[#E5E7EB]">
                     {stats?.recentOrders && stats.recentOrders.length > 0 ? (
                       stats.recentOrders.map((o) => (
-                        <tr key={o.orderId} className="hover:bg-slate-50 transition">
-                          <td className="px-6 py-4 font-mono text-xs font-bold text-slate-800">{o.orderNumber}</td>
-                          <td className="px-6 py-4">
-                            <div className="font-semibold text-slate-900">{o.studentName}</div>
-                            <div className="text-xs text-slate-400">{o.studentEmail}</div>
+                        <tr key={o.orderId} className="hover:bg-slate-50/70 transition-colors">
+                          <td className="px-5 py-3.5 font-mono text-xs font-semibold text-[#20252B]">{o.orderNumber}</td>
+                          <td className="px-5 py-3.5">
+                            <div className="font-medium text-[#20252B]">{o.studentName}</div>
+                            <div className="text-[11px] text-[#697386]">{o.studentEmail}</div>
                           </td>
-                          <td className="px-6 py-4 text-slate-800">{o.courseTitle}</td>
-                          <td className="px-6 py-4 font-mono font-bold text-slate-900">₹{o.amount.toLocaleString('en-IN')}</td>
-                          <td className="px-6 py-4">
-                            <span className="text-xs font-mono font-medium text-slate-600">
-                              {o.provider} ({o.paymentMode})
-                            </span>
+                          <td className="px-5 py-3.5 text-[#20252B] max-w-xs truncate">{o.courseTitle}</td>
+                          <td className="px-5 py-3.5 font-mono font-semibold text-[#20252B]">
+                            ₹{o.amount.toLocaleString('en-IN')}
                           </td>
-                          <td className="px-6 py-4">
-                            <span
-                              className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                          <td className="px-5 py-3.5 text-xs text-[#697386]">
+                            {o.provider} ({o.paymentMode})
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <Badge
+                              variant={
                                 o.status === 'PAID'
-                                  ? 'bg-emerald-100 text-emerald-800'
+                                  ? 'success'
                                   : o.status === 'PENDING'
-                                  ? 'bg-amber-100 text-amber-800'
-                                  : 'bg-rose-100 text-rose-800'
-                              }`}
+                                  ? 'warning'
+                                  : 'error'
+                              }
+                              size="sm"
                             >
                               {o.status}
-                            </span>
+                            </Badge>
                           </td>
-                          <td className="px-6 py-4 text-xs text-slate-400">
+                          <td className="px-5 py-3.5 text-right text-xs text-[#697386]">
                             {new Date(o.createdAt).toLocaleDateString('en-IN', {
                               day: '2-digit',
                               month: 'short',
                               year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit',
                             })}
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={7} className="px-6 py-8 text-center text-slate-400 text-sm">
+                        <td colSpan={7} className="px-5 py-8 text-center text-[#697386] text-xs">
                           No recent transactions recorded.
                         </td>
                       </tr>

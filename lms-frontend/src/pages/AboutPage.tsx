@@ -1,68 +1,69 @@
 import React from 'react';
-import { GraduationCap, Award, Users, ShieldCheck, HeartHandshake, Sparkles } from 'lucide-react';
+import { GraduationCap, Award, Users, ShieldCheck, Code2, BookOpen } from 'lucide-react';
+import { Badge } from '../components/ui/Badge';
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="flex-1 bg-slate-50 py-16">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <div className="flex-1 bg-[#FAFAF8] py-12 sm:py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center space-x-2 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-full text-indigo-700 text-xs font-bold uppercase tracking-wider mb-4">
-            <GraduationCap className="w-4 h-4 text-indigo-600" />
-            <span>Our Mission</span>
-          </div>
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl">
-            Bridging The Gap Between Theory & Industry Excellence
+          <Badge variant="teal" size="sm" className="mb-3">
+            <GraduationCap className="w-3.5 h-3.5" />
+            <span>Platform Overview</span>
+          </Badge>
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#20252B] tracking-tight">
+            Bridging Practical Theory & Engineering Excellence
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
-            SkillForge Academy was founded with a clear objective: to provide learners with direct access to production-grade engineering curricula taught by veterans from leading technology companies.
+          <p className="mt-3 text-sm sm:text-base text-[#697386] leading-relaxed">
+            SkillForge was built with a clear purpose: to provide learners with structured, self-paced access to production-grade engineering curricula with automated assessments and verifiable credentials.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Award className="w-6 h-6" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg border border-[#E5E7EB] shadow-card text-center space-y-3">
+            <div className="w-10 h-10 bg-[#172B4D]/10 text-[#172B4D] rounded-md flex items-center justify-center mx-auto">
+              <Code2 className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">Rigorous Accreditation</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              We uphold uncompromising quality standards. Our certificates reflect genuine mastery through tested quizzes and projects.
+            <h3 className="font-semibold text-base text-[#20252B]">Practical Codebases</h3>
+            <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              Curricula centered on real software engineering patterns, system design, modern libraries, and deployable projects.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Users className="w-6 h-6" />
+          <div className="bg-white p-6 rounded-lg border border-[#E5E7EB] shadow-card text-center space-y-3">
+            <div className="w-10 h-10 bg-[#287C78]/10 text-[#287C78] rounded-md flex items-center justify-center mx-auto">
+              <Award className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">10,000+ Alumni</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Our students work as full-stack engineers, cloud architects, and data scientists across top tech companies worldwide.
+            <h3 className="font-semibold text-base text-[#20252B]">Verifiable Credentials</h3>
+            <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              Every graduate receives an independently verifiable certificate with a unique UUID lookup and QR verification.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm text-center">
-            <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="w-6 h-6" />
+          <div className="bg-white p-6 rounded-lg border border-[#E5E7EB] shadow-card text-center space-y-3">
+            <div className="w-10 h-10 bg-emerald-50 text-emerald-700 rounded-md flex items-center justify-center mx-auto">
+              <BookOpen className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-900 text-lg mb-2">Hands-On Experience</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Every course is structured around real codebases, real architectural problems, and real-world deployment workflows.
+            <h3 className="font-semibold text-base text-[#20252B]">Self-Paced Structure</h3>
+            <p className="text-xs sm:text-sm text-[#697386] leading-relaxed">
+              Lifetime course access allowing students to learn at their own pace, revisit lectures, and complete assessments whenever ready.
             </p>
           </div>
         </div>
 
-        <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800">
-          <h2 className="text-2xl font-extrabold mb-4">Our Teaching Philosophy</h2>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
-            We reject superficial tutorials. Every SkillForge curriculum focuses on fundamental software design patterns, architectural best practices, testing disciplines, and production reliability.
+        <div className="bg-[#172B4D] text-white rounded-lg p-6 sm:p-10 border border-slate-800 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight">Our Platform Principles</h2>
+          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
+            We prioritize deep conceptual understanding, code hygiene, and real deployment workflows over passive video consumption.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs sm:text-sm text-slate-200">
             <div className="flex items-center space-x-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-              <span>Curricula reviewed and vetted by senior engineering directors</span>
+              <ShieldCheck className="w-4 h-4 text-teal-400 shrink-0" />
+              <span>Full-stack architecture and security standards</span>
             </div>
             <div className="flex items-center space-x-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0" />
-              <span>Automated certificate verification for recruiters</span>
+              <ShieldCheck className="w-4 h-4 text-teal-400 shrink-0" />
+              <span>Instant public verification lookup for recruiters</span>
             </div>
           </div>
         </div>
