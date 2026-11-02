@@ -70,52 +70,47 @@ export const Navbar: React.FC = () => {
             <nav className="hidden md:flex items-center space-x-1 text-sm font-medium text-[#697386]">
               <Link
                 to="/"
-                className={`px-3 py-1.5 rounded-md transition-colors ${
-                  isActive('/')
+                className={`px-3 py-1.5 rounded-md transition-colors ${isActive('/')
                     ? 'text-[#172B4D] bg-slate-100 font-semibold'
                     : 'hover:text-[#172B4D] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 Home
               </Link>
               <Link
                 to="/courses"
-                className={`px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 ${
-                  isActive('/courses')
+                className={`px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 ${isActive('/courses')
                     ? 'text-[#172B4D] bg-slate-100 font-semibold'
                     : 'hover:text-[#172B4D] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 <Compass className="w-4 h-4 text-[#287C78]" />
                 <span>Explore Courses</span>
               </Link>
               <Link
                 to="/about"
-                className={`px-3 py-1.5 rounded-md transition-colors ${
-                  isActive('/about')
+                className={`px-3 py-1.5 rounded-md transition-colors ${isActive('/about')
                     ? 'text-[#172B4D] bg-slate-100 font-semibold'
                     : 'hover:text-[#172B4D] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 About Us
               </Link>
               <Link
                 to="/contact"
-                className={`px-3 py-1.5 rounded-md transition-colors ${
-                  isActive('/contact')
+                className={`px-3 py-1.5 rounded-md transition-colors ${isActive('/contact')
                     ? 'text-[#172B4D] bg-slate-100 font-semibold'
                     : 'hover:text-[#172B4D] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 Contact
               </Link>
               <Link
                 to="/verify-certificate"
-                className={`px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 ${
-                  isActive('/verify-certificate')
+                className={`px-3 py-1.5 rounded-md transition-colors flex items-center space-x-1.5 ${isActive('/verify-certificate')
                     ? 'text-[#287C78] bg-teal-50 font-semibold'
                     : 'hover:text-[#287C78] hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 <ShieldCheck className="w-4 h-4 text-[#287C78]" />
                 <span>Verify Credential</span>
@@ -139,9 +134,8 @@ export const Navbar: React.FC = () => {
                     {user.fullName || user.email}
                   </span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 ${
-                      dropdownOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 ${dropdownOpen ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
 

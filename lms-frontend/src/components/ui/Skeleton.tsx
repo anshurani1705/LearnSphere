@@ -26,3 +26,4 @@ export const CourseCardSkeleton: React.FC = () => {
     </div>
   );
 };
+

@@ -25,10 +25,15 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor to unwrap data and handle 401
+// Response interceptor to unwrap data and handle 401 & network errors gracefully
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.message === 'Network Error' || !error.response) {
+      return Promise.reject({
+        message: 'Unable to connect to backend server. The free cloud container may be waking up from sleep mode—please wait 30–45 seconds and retry.',
+      });
+    }
     return Promise.reject(error.response?.data || { message: error.message });
   }
 );
