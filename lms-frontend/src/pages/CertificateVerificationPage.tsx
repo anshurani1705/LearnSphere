@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
 import { CertificateVerifyResult } from '../types';
-import { ShieldCheck, Search, CheckCircle, XCircle, Award, Calendar, User, BookOpen } from 'lucide-react';
+import { Search, CheckCircle, XCircle } from 'lucide-react';
 
 export const CertificateVerificationPage: React.FC = () => {
   const { certificateId: paramCertId } = useParams<{ certificateId?: string }>();
@@ -45,41 +45,37 @@ export const CertificateVerificationPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 bg-slate-50 py-16">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <div className="flex-1 bg-[#FAF8F5] py-16 lg:py-20">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center space-x-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full text-emerald-700 text-xs font-bold uppercase tracking-wider mb-4">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>Official Credential Registry</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Verify Certificate Authenticity
+        <div className="mb-8">
+          <h1 className="font-serif font-semibold text-3xl sm:text-4xl text-[#1F2328] tracking-tight">
+            Verify a certificate
           </h1>
-          <p className="text-slate-600 text-sm mt-2 max-w-xl mx-auto">
-            SkillForge credentials are tamper-proof and verifiable by employers, university recruiters, and academic institutions worldwide.
+          <p className="text-sm sm:text-base text-[#5F6368] mt-2 leading-relaxed">
+            Enter the unique certificate ID found on any SkillForge credential to confirm the learner name, course title, and issue date.
           </p>
         </div>
 
         {/* Verification Search Box */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-10">
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+        <div className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] mb-8">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
-              <Search className="w-5 h-5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#5F6368] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Enter unique Certificate ID (e.g. SF-20261012-ABC123)..."
+                placeholder="Certificate ID (e.g. SKL-CERT-2026-9042)..."
                 value={inputCertId}
                 onChange={(e) => setInputCertId(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-slate-900"
+                className="w-full pl-9 pr-3 py-2 text-sm bg-[#FAF8F5] border border-[#E7E2DA] rounded-[6px] text-[#1F2328] font-mono focus-ring"
               />
             </div>
             <button
               type="submit"
               disabled={loading || !inputCertId.trim()}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow disabled:opacity-50"
+              className="bg-[#0E6B6B] hover:bg-[#0A5555] text-white text-xs font-medium px-4 py-2.5 rounded-[6px] transition disabled:opacity-50 focus-ring"
             >
-              {loading ? 'Verifying...' : 'Verify Now'}
+              {loading ? 'Verifying...' : 'Verify'}
             </button>
           </form>
         </div>
@@ -88,69 +84,50 @@ export const CertificateVerificationPage: React.FC = () => {
         {hasSearched && (
           <div>
             {result?.valid ? (
-              <div className="bg-white rounded-2xl border-2 border-emerald-500 shadow-lg p-8 space-y-6">
-                <div className="flex items-center space-x-3 text-emerald-600 pb-4 border-b border-slate-100">
-                  <CheckCircle className="w-8 h-8 text-emerald-500 shrink-0" />
+              <div className="bg-white rounded-[8px] border border-[#E7E2DA] p-6 space-y-5 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+                <div className="flex items-center space-x-2.5 text-[#2F855A] pb-3 border-b border-[#E7E2DA]">
+                  <CheckCircle className="w-5 h-5 shrink-0" />
                   <div>
-                    <h2 className="text-xl font-extrabold text-slate-900">Valid & Verified Certificate</h2>
-                    <p className="text-xs text-emerald-700 font-semibold">
-                      This credential was officially issued by SkillForge Academy
+                    <h2 className="font-serif font-semibold text-base text-[#1F2328]">Valid certificate</h2>
+                    <p className="text-xs text-[#2F855A]">
+                      Officially issued and recorded on SkillForge
                     </p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
-                  <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                      <User className="w-3.5 h-3.5" />
-                      <span>Recipient Name</span>
-                    </p>
-                    <p className="text-lg font-bold text-slate-900">{result.studentName}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-xs text-[#5F6368]">Recipient</p>
+                    <p className="font-medium text-[#1F2328] mt-0.5">{result.studentName}</p>
                   </div>
 
-                  <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                      <Award className="w-3.5 h-3.5" />
-                      <span>Certificate Identifier</span>
-                    </p>
-                    <p className="text-sm font-mono font-bold text-indigo-600">{result.certificateId}</p>
+                  <div>
+                    <p className="text-xs text-[#5F6368]">Certificate ID</p>
+                    <p className="font-mono text-xs text-[#0E6B6B] mt-0.5">{result.certificateId}</p>
                   </div>
 
-                  <div className="space-y-1 sm:col-span-2">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                      <BookOpen className="w-3.5 h-3.5" />
-                      <span>Course Title</span>
-                    </p>
-                    <p className="text-base font-bold text-slate-900">{result.courseTitle}</p>
+                  <div className="sm:col-span-2">
+                    <p className="text-xs text-[#5F6368]">Course completed</p>
+                    <p className="font-medium text-[#1F2328] mt-0.5">{result.courseTitle}</p>
                   </div>
 
-                  <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>Issue Date</span>
-                    </p>
-                    <p className="text-sm font-semibold text-slate-800">{result.issueDate}</p>
+                  <div>
+                    <p className="text-xs text-[#5F6368]">Issue date</p>
+                    <p className="text-sm text-[#1F2328] mt-0.5">{result.issueDate}</p>
                   </div>
 
-                  <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>Issuing Body</span>
-                    </p>
-                    <p className="text-sm font-semibold text-slate-800">{result.issuer}</p>
+                  <div>
+                    <p className="text-xs text-[#5F6368]">Issuer</p>
+                    <p className="text-sm text-[#1F2328] mt-0.5">{result.issuer || 'SkillForge Academy'}</p>
                   </div>
-                </div>
-
-                <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-500 leading-relaxed">
-                  Notice: In accordance with our privacy policy, private student contact details and internal grades are omitted from public registry verification records.
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl border-2 border-rose-300 shadow p-8 text-center space-y-4">
-                <XCircle className="w-12 h-12 text-rose-500 mx-auto" />
-                <h2 className="text-xl font-bold text-slate-900">Certificate Not Found</h2>
-                <p className="text-slate-600 text-sm max-w-md mx-auto">
-                  No record was found matching Certificate ID <span className="font-mono font-bold">{result?.certificateId}</span>. Please verify the ID for typographical errors or contact our academic registrar.
+              <div className="bg-white rounded-[8px] border border-[#E7E2DA] p-6 text-center space-y-2 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+                <XCircle className="w-8 h-8 text-[#C0392B] mx-auto mb-1" />
+                <h2 className="font-serif font-semibold text-base text-[#1F2328]">Certificate not found</h2>
+                <p className="text-xs text-[#5F6368] max-w-sm mx-auto">
+                  No record was found matching <span className="font-mono font-medium">{result?.certificateId}</span>. Please verify the ID for typographical errors.
                 </p>
               </div>
             )}

@@ -7,17 +7,12 @@ import { initiateCheckout } from '../utils/razorpay';
 import { MockCheckoutModal } from '../components/payment/MockCheckoutModal';
 import { getCourseThumbnail } from '../components/CourseCard';
 import {
-  Clock,
-  User,
-  ShieldCheck,
-  CheckCircle2,
-  PlayCircle,
-  Lock,
+  Check,
   ChevronDown,
   ChevronUp,
-  Award,
-  AlertCircle,
   FileText,
+  Lock,
+  PlayCircle,
   X,
 } from 'lucide-react';
 
@@ -129,84 +124,79 @@ export const CourseDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center py-24">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-slate-900 border-t-transparent"></div>
+      <div className="flex-1 flex items-center justify-center py-24 bg-[#FAF8F5]">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#0E6B6B] border-t-transparent"></div>
       </div>
     );
   }
 
   if (error || !course) {
     return (
-      <div className="flex-1 flex items-center justify-center py-24 px-4 bg-[#FAFAF8]">
-        <div className="max-w-md w-full bg-white p-8 rounded-xl border border-slate-200 text-center shadow-sm">
-          <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-3" />
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Course Unavailable</h2>
-          <p className="text-slate-600 text-sm mb-6">{error || 'Could not find this course.'}</p>
+      <div className="flex-1 flex items-center justify-center py-24 px-4 bg-[#FAF8F5]">
+        <div className="max-w-md w-full bg-white p-8 rounded-[8px] border border-[#E7E2DA] text-center shadow-sm">
+          <h2 className="font-serif font-semibold text-xl text-[#1F2328] mb-2">Course not found</h2>
+          <p className="text-[#5F6368] text-sm mb-6">{error || 'Could not find this course.'}</p>
           <Link
             to="/courses"
-            className="inline-block bg-[#0F172A] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition"
+            className="inline-block bg-[#0E6B6B] text-white px-4 py-2 rounded-[6px] font-medium text-sm hover:bg-[#0A5555] transition"
           >
-            Back to Courses
+            Back to courses
           </Link>
         </div>
       </div>
     );
   }
 
+  const levelLabel = {
+    BEGINNER: 'Beginner',
+    INTERMEDIATE: 'Intermediate',
+    ADVANCED: 'Advanced',
+  }[course.level] || course.level;
+
   return (
-    <div className="flex-1 bg-[#FAFAF8]">
-      {/* Course Hero Banner */}
-      <section className="bg-[#0F172A] text-white py-12 lg:py-16 relative overflow-hidden border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-            <div className="lg:col-span-2 space-y-4">
-              <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-1 text-xs font-semibold rounded-md bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  {course.level}
-                </span>
-                <span className="text-xs text-slate-400">&bull;</span>
-                <span className="text-xs text-slate-300 flex items-center space-x-1">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>{course.durationHours || 40} Hours Comprehensive</span>
-                </span>
+    <div className="flex-1 bg-[#FAF8F5]">
+      {/* Light Hero Section */}
+      <section className="py-12 lg:py-16 border-b border-[#E7E2DA]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="flex items-center space-x-2 text-xs text-[#5F6368]">
+                <span>{levelLabel}</span>
+                <span>&bull;</span>
+                <span>{course.durationHours || 40} hours of material</span>
+                {course.instructorName && (
+                  <>
+                    <span>&bull;</span>
+                    <span>Taught by {course.instructorName}</span>
+                  </>
+                )}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+              <h1 className="font-serif font-semibold text-3xl sm:text-4xl lg:text-[40px] text-[#1F2328] tracking-tight leading-[1.2]">
                 {course.title}
               </h1>
 
-              <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
+              <p className="text-base sm:text-lg text-[#5F6368] leading-relaxed max-w-2xl">
                 {course.shortDescription}
               </p>
-
-              {course.instructorName && (
-                <div className="flex items-center space-x-3 pt-2">
-                  <div className="w-9 h-9 rounded-full bg-blue-700 flex items-center justify-center font-bold text-white text-sm">
-                    {course.instructorName.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400">Created by</p>
-                    <p className="text-sm font-semibold text-white">{course.instructorName}</p>
-                  </div>
-                </div>
-              )}
             </div>
 
-            {/* Mobile / Tablet pricing banner */}
-            <div className="lg:hidden bg-slate-800 p-6 rounded-xl border border-slate-700">
-              <div className="relative rounded-lg overflow-hidden h-48 bg-slate-900 mb-4">
+            {/* Mobile pricing card */}
+            <div className="lg:hidden bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-sm">
+              <div className="aspect-video rounded-[6px] overflow-hidden mb-4 bg-[#FAF8F5]">
                 <img
                   src={getCourseThumbnail(course)}
                   alt={course.title}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex items-baseline space-x-3 mb-4">
-                <span className="text-3xl font-extrabold text-white">
+
+              <div className="flex items-baseline space-x-2 mb-4">
+                <span className="text-2xl font-semibold text-[#1F2328]">
                   ₹{course.price.toLocaleString('en-IN')}
                 </span>
                 {course.originalPrice && course.originalPrice > course.price && (
-                  <span className="text-sm text-slate-400 line-through">
+                  <span className="text-sm text-[#8B949E] line-through">
                     ₹{course.originalPrice.toLocaleString('en-IN')}
                   </span>
                 )}
@@ -215,17 +205,17 @@ export const CourseDetailPage: React.FC = () => {
               {course.isEnrolled ? (
                 <Link
                   to={`/learn/${course.id}`}
-                  className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-lg transition shadow-sm"
+                  className="block w-full text-center bg-[#0E6B6B] hover:bg-[#0A5555] text-white font-medium py-2.5 rounded-[6px] transition text-sm"
                 >
-                  Continue Learning
+                  Continue learning
                 </Link>
               ) : (
                 <button
                   onClick={handleEnrollClick}
                   disabled={checkoutLoading}
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition shadow-sm disabled:opacity-50"
+                  className="w-full bg-[#D9663A] hover:bg-[#C2552B] text-white font-medium py-2.5 rounded-[6px] transition text-sm disabled:opacity-50"
                 >
-                  {checkoutLoading ? 'Processing Checkout...' : 'Enroll Now'}
+                  {checkoutLoading ? 'Processing...' : 'Enroll in course'}
                 </button>
               )}
             </div>
@@ -234,77 +224,83 @@ export const CourseDetailPage: React.FC = () => {
       </section>
 
       {/* Main Content Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
-          {/* Left Column: Curriculum, Description, Outcomes */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Learning Outcomes */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Learning Outcomes, Curriculum, Bio, Prerequisites */}
+          <div className="lg:col-span-8 space-y-12">
+            {/* What you will learn */}
             {course.learningOutcomes && course.learningOutcomes.length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
-                <h2 className="text-lg font-bold text-slate-900 mb-5">What You Will Learn</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-[#E7E2DA] shadow-sm">
+                <h2 className="font-serif font-semibold text-xl text-[#1F2328] mb-4">
+                  What you will learn
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                   {course.learningOutcomes.map((outcome, idx) => (
-                    <div key={idx} className="flex items-start space-x-3">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span className="text-slate-700 text-sm leading-relaxed">{outcome}</span>
+                    <div key={idx} className="flex items-start space-x-2.5">
+                      <span className="w-4 h-4 rounded-full bg-[#E6F2F1] text-[#0E6B6B] flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-2.5 h-2.5" />
+                      </span>
+                      <span className="text-sm text-[#1F2328] leading-relaxed">{outcome}</span>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Curriculum Sections */}
-            <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
-              <div className="flex items-center justify-between mb-5">
+            {/* Course Curriculum Accordion */}
+            <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-[#E7E2DA] shadow-sm">
+              <div className="flex items-baseline justify-between mb-6 pb-3 border-b border-[#E7E2DA]">
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900">Course Curriculum</h2>
-                  <p className="text-xs text-slate-500 mt-1">
-                    {course.sections.length} Sections &bull;{' '}
-                    {course.sections.reduce((acc, s) => acc + s.lessons.length, 0)} Total Lessons
+                  <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+                    Syllabus
+                  </h2>
+                  <p className="text-xs text-[#5F6368] mt-1">
+                    {course.sections.length} sections &bull;{' '}
+                    {course.sections.reduce((acc, s) => acc + s.lessons.length, 0)} lessons
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-3.5">
+              <div className="space-y-3">
                 {course.sections.map((section, sIdx) => {
                   const isExpanded = expandedSections[section.id];
                   return (
-                    <div key={section.id} className="border border-slate-200 rounded-lg overflow-hidden">
+                    <div key={section.id} className="border border-[#E7E2DA] rounded-[6px] overflow-hidden">
                       <button
                         onClick={() => toggleSection(section.id)}
-                        className="w-full flex items-center justify-between p-4 bg-slate-50 hover:bg-slate-100 transition text-left"
+                        className="w-full flex items-center justify-between p-3.5 bg-[#FAF8F5] hover:bg-[#F2EFE9] transition text-left"
                       >
-                        <div className="flex items-center space-x-3">
-                          <span className="text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
-                            Section {sIdx + 1}
+                        <div className="flex items-center space-x-2.5">
+                          <span className="text-xs text-[#5F6368] font-medium">
+                            Part {sIdx + 1}:
                           </span>
-                          <span className="font-semibold text-slate-900 text-sm">{section.title}</span>
+                          <span className="font-medium text-sm text-[#1F2328]">{section.title}</span>
                         </div>
-                        <div className="flex items-center space-x-3 text-slate-500 text-xs">
+                        <div className="flex items-center space-x-2 text-xs text-[#5F6368]">
                           <span>{section.lessons.length} lessons</span>
-                          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                          {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </div>
                       </button>
 
                       {isExpanded && (
-                        <div className="divide-y divide-slate-100 bg-white">
+                        <div className="divide-y divide-[#E7E2DA]/60 bg-white">
                           {section.lessons.map((lesson) => (
                             <div
                               key={lesson.id}
-                              className="p-3.5 sm:p-4 flex items-center justify-between hover:bg-slate-50/50 transition text-sm"
+                              className="p-3.5 flex items-center justify-between hover:bg-[#FAF8F5]/60 transition text-sm"
                             >
-                              <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-2.5">
                                 {lesson.contentType === 'VIDEO' ? (
-                                  <PlayCircle className="w-4 h-4 text-blue-600 shrink-0" />
+                                  <PlayCircle className="w-4 h-4 text-[#0E6B6B] shrink-0" />
                                 ) : (
-                                  <FileText className="w-4 h-4 text-slate-400 shrink-0" />
+                                  <FileText className="w-4 h-4 text-[#8B949E] shrink-0" />
                                 )}
-                                <span className="text-slate-800 font-medium">{lesson.title}</span>
+                                <span className="text-sm text-[#1F2328]">{lesson.title}</span>
                               </div>
 
-                              <div className="flex items-center space-x-3">
+                              <div className="flex items-center space-x-2 text-xs">
                                 {lesson.videoDurationSeconds && (
-                                  <span className="text-xs text-slate-400">
+                                  <span className="text-[#5F6368]">
                                     {Math.round(lesson.videoDurationSeconds / 60)} min
                                   </span>
                                 )}
@@ -312,14 +308,12 @@ export const CourseDetailPage: React.FC = () => {
                                 {lesson.preview ? (
                                   <button
                                     onClick={() => setPreviewLesson(lesson)}
-                                    className="text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded transition"
+                                    className="text-xs font-medium text-[#0E6B6B] hover:underline px-2 py-0.5"
                                   >
                                     Preview
                                   </button>
                                 ) : (
-                                  <span className="text-slate-300">
-                                    <Lock className="w-3.5 h-3.5" />
-                                  </span>
+                                  <Lock className="w-3.5 h-3.5 text-[#A0A5AA]" />
                                 )}
                               </div>
                             </div>
@@ -332,19 +326,45 @@ export const CourseDetailPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Course Description */}
-            <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm space-y-4">
-              <h2 className="text-lg font-bold text-slate-900">About this Course</h2>
-              <div className="prose prose-slate max-w-none text-slate-700 text-sm leading-relaxed whitespace-pre-line">
+            {/* About this course */}
+            <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-[#E7E2DA] shadow-sm space-y-4">
+              <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+                About this course
+              </h2>
+              <div className="text-sm text-[#5F6368] leading-relaxed whitespace-pre-line max-w-prose">
                 {course.description}
               </div>
             </div>
 
-            {/* Prerequisites */}
+            {/* Instructor Bio */}
+            {course.instructorName && (
+              <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-[#E7E2DA] shadow-sm space-y-3">
+                <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+                  Your instructor
+                </h2>
+                <div className="flex items-start space-x-4 pt-1">
+                  <div className="w-12 h-12 rounded-[6px] bg-[#E6F2F1] text-[#0E6B6B] flex items-center justify-center font-serif font-semibold text-lg border border-[#E7E2DA] shrink-0">
+                    {course.instructorName.charAt(0)}
+                  </div>
+                  <div>
+                    <h3 className="font-sans font-medium text-base text-[#1F2328]">
+                      {course.instructorName}
+                    </h3>
+                    <p className="text-sm text-[#5F6368] mt-1 leading-relaxed max-w-prose">
+                      {course.instructorBio || 'Senior engineer and practitioner with extensive production experience.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Requirements & Prerequisites */}
             {course.prerequisites && course.prerequisites.length > 0 && (
-              <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
-                <h2 className="text-lg font-bold text-slate-900 mb-3">Requirements & Prerequisites</h2>
-                <ul className="list-disc list-inside space-y-2 text-slate-700 text-sm">
+              <div className="bg-white p-6 sm:p-8 rounded-[8px] border border-[#E7E2DA] shadow-sm">
+                <h2 className="font-serif font-semibold text-xl text-[#1F2328] mb-3">
+                  Requirements
+                </h2>
+                <ul className="list-disc list-inside space-y-1.5 text-sm text-[#5F6368]">
                   {course.prerequisites.map((req, idx) => (
                     <li key={idx}>{req}</li>
                   ))}
@@ -354,91 +374,83 @@ export const CourseDetailPage: React.FC = () => {
           </div>
 
           {/* Right Column: Desktop Sticky Checkout Card */}
-          <div className="hidden lg:block sticky top-24">
-            <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-5">
-              <div className="relative rounded-lg overflow-hidden h-44 bg-slate-900">
+          <div className="hidden lg:block lg:col-span-4 sticky top-24">
+            <div className="bg-white rounded-[8px] border border-[#E7E2DA] shadow-sm p-5 space-y-4">
+              <div className="aspect-video rounded-[6px] overflow-hidden bg-[#FAF8F5]">
                 <img
                   src={getCourseThumbnail(course)}
                   alt={course.title}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80';
+                  }}
                 />
               </div>
+
               <div>
-                <div className="flex items-baseline space-x-3 mb-1">
-                  <span className="text-3xl font-extrabold text-slate-900">
+                <div className="flex items-baseline space-x-2">
+                  <span className="text-2xl font-semibold text-[#1F2328]">
                     ₹{course.price.toLocaleString('en-IN')}
                   </span>
                   {course.originalPrice && course.originalPrice > course.price && (
-                    <span className="text-sm text-slate-400 line-through">
+                    <span className="text-xs text-[#8B949E] line-through">
                       ₹{course.originalPrice.toLocaleString('en-IN')}
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-emerald-700 font-semibold">Instant Lifetime Access</p>
+                <p className="text-xs text-[#5F6368] mt-0.5">Lifetime access with certificate included</p>
               </div>
 
               {checkoutError && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700">
+                <div className="p-2.5 bg-[#C0392B]/10 border border-[#C0392B]/20 rounded-[6px] text-xs text-[#C0392B]">
                   {checkoutError}
                 </div>
               )}
 
               {course.isEnrolled ? (
-                <div className="space-y-3">
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 font-semibold flex items-center space-x-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>You are enrolled in this course</span>
-                  </div>
+                <div className="space-y-2">
+                  <p className="text-xs text-[#2F855A] font-medium">You are enrolled in this course</p>
                   <Link
                     to={`/learn/${course.id}`}
-                    className="block w-full text-center bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-lg transition shadow-sm text-sm"
+                    className="block w-full text-center bg-[#0E6B6B] hover:bg-[#0A5555] text-white font-medium py-2.5 rounded-[6px] transition text-sm shadow-sm"
                   >
-                    Go to Learning Player
+                    Go to course player
                   </Link>
                 </div>
               ) : (
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   <button
                     onClick={handleEnrollClick}
                     disabled={checkoutLoading || quickEnrolling}
-                    className="w-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold py-3 rounded-lg transition shadow-sm text-sm disabled:opacity-50"
+                    className="w-full bg-[#D9663A] hover:bg-[#C2552B] text-white font-medium py-2.5 rounded-[6px] transition text-sm shadow-sm disabled:opacity-50"
                   >
-                    {checkoutLoading ? 'Opening Checkout...' : 'Buy Course & Start Learning'}
+                    {checkoutLoading ? 'Opening checkout...' : 'Enroll in course'}
                   </button>
                   <button
                     onClick={handleQuickEnroll}
                     disabled={checkoutLoading || quickEnrolling}
-                    className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2.5 rounded-lg transition text-xs border border-slate-200 flex items-center justify-center space-x-1.5 disabled:opacity-50"
+                    className="w-full bg-[#FAF8F5] hover:bg-[#E7E2DA]/40 text-[#1F2328] font-medium py-2 rounded-[6px] transition text-xs border border-[#E7E2DA] flex items-center justify-center space-x-1 disabled:opacity-50"
                   >
-                    {quickEnrolling ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-slate-600 border-t-transparent rounded-full animate-spin" />
-                        <span>Enrolling...</span>
-                      </>
-                    ) : (
-                      <span>⚡ 1-Click Instant Demo Enroll</span>
-                    )}
+                    {quickEnrolling ? 'Enrolling...' : 'Try 1-click demo enrollment'}
                   </button>
                 </div>
               )}
 
-              <div className="border-t border-slate-100 pt-4 space-y-2.5 text-xs text-slate-600">
-                <p className="font-semibold text-slate-900">This course includes:</p>
+              <div className="border-t border-[#E7E2DA] pt-3.5 space-y-2 text-xs text-[#5F6368]">
+                <p className="font-medium text-[#1F2328]">Included with this course:</p>
                 <div className="flex items-center space-x-2">
-                  <PlayCircle className="w-4 h-4 text-blue-600 shrink-0" />
-                  <span>On-demand recorded HD video lessons</span>
+                  <Check className="w-3.5 h-3.5 text-[#0E6B6B] shrink-0" />
+                  <span>On-demand HD video walk-throughs</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Comprehensive graded assessments</span>
+                  <Check className="w-3.5 h-3.5 text-[#0E6B6B] shrink-0" />
+                  <span>Interactive quizzes with instant grading</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Award className="w-4 h-4 text-purple-600 shrink-0" />
-                  <span>Verified Certificate of Completion</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <ShieldCheck className="w-4 h-4 text-slate-500 shrink-0" />
-                  <span>Secure checkout via Razorpay</span>
+                  <Check className="w-3.5 h-3.5 text-[#0E6B6B] shrink-0" />
+                  <span>Publicly verifiable completion certificate</span>
                 </div>
               </div>
             </div>
@@ -448,19 +460,20 @@ export const CourseDetailPage: React.FC = () => {
 
       {/* Preview Lesson Modal */}
       {previewLesson && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full overflow-hidden shadow-xl border border-slate-200">
-            <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <PlayCircle className="w-5 h-5 text-blue-400" />
-                <h3 className="font-bold text-sm truncate">{previewLesson.title}</h3>
-              </div>
-              <button onClick={() => setPreviewLesson(null)} className="text-slate-400 hover:text-white">
-                <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-[8px] max-w-2xl w-full overflow-hidden shadow-lg border border-[#E7E2DA]">
+            <div className="p-4 border-b border-[#E7E2DA] flex items-center justify-between">
+              <h3 className="font-serif font-semibold text-sm text-[#1F2328] truncate">{previewLesson.title}</h3>
+              <button
+                onClick={() => setPreviewLesson(null)}
+                className="text-[#5F6368] hover:text-[#1F2328]"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="p-6 space-y-4">
-              <div className="aspect-video bg-slate-900 rounded-lg overflow-hidden flex items-center justify-center text-slate-400">
+            <div className="p-5 space-y-3">
+              <div className="aspect-video bg-[#1F2328] rounded-[6px] overflow-hidden flex items-center justify-center text-[#8B949E]">
                 {previewLesson.videoUrl ? (
                   <iframe
                     src={previewLesson.videoUrl}
@@ -469,23 +482,12 @@ export const CourseDetailPage: React.FC = () => {
                     allowFullScreen
                   />
                 ) : (
-                  <div className="text-center p-4">
-                    <PlayCircle className="w-12 h-12 text-slate-600 mx-auto mb-2" />
-                    <p className="text-sm">Video stream preview loaded from demo content.</p>
-                  </div>
+                  <p className="text-xs">Video stream preview loaded from demo content.</p>
                 )}
               </div>
-              <div className="text-sm text-slate-700 leading-relaxed">
-                {previewLesson.description || 'This is a free preview lesson for this course.'}
-              </div>
-              <div className="flex justify-end">
-                <button
-                  onClick={() => setPreviewLesson(null)}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg font-semibold text-xs"
-                >
-                  Close Preview
-                </button>
-              </div>
+              <p className="text-xs text-[#5F6368] leading-relaxed">
+                {previewLesson.description || 'Sample preview lesson from this course.'}
+              </p>
             </div>
           </div>
         </div>

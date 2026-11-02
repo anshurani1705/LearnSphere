@@ -17,3 +17,4 @@ WHERE slug = 'digital-marketing-masterclass' OR id = 3;
 UPDATE courses 
 SET thumbnail_url = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80'
 WHERE slug = 'cloud-architecture-with-aws' OR id = 4;
+

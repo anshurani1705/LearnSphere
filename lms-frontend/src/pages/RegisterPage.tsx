@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '../context/AuthContext';
-import { GraduationCap, Lock, Mail, User, Phone, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 const registerSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
@@ -43,112 +43,90 @@ export const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8]">
-      <div className="max-w-md w-full bg-white p-8 sm:p-10 rounded-xl border border-slate-200 shadow-sm space-y-6">
-        <div className="text-center">
-          <Link to="/" className="inline-flex items-center space-x-2.5 group">
-            <div className="w-10 h-10 rounded-lg bg-[#0F172A] flex items-center justify-center text-white shadow-sm">
-              <GraduationCap className="w-6 h-6 text-blue-300" />
-            </div>
-            <span className="font-bold text-2xl tracking-tight text-slate-900">
-              Skill<span className="text-blue-700">Forge</span>
-            </span>
-          </Link>
-          <h2 className="mt-5 text-2xl font-bold text-slate-900 tracking-tight">Create your student account</h2>
-          <p className="mt-1 text-xs text-slate-500">
+    <div className="flex-1 flex items-center justify-center py-16 px-4 bg-[#FAF8F5]">
+      <div className="max-w-md w-full bg-white p-8 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] space-y-6">
+        <div>
+          <h1 className="font-serif font-semibold text-2xl text-[#1F2328] tracking-tight">
+            Create your account
+          </h1>
+          <p className="mt-1 text-xs text-[#5F6368]">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-blue-700 hover:text-blue-800">
+            <Link to="/login" className="text-[#0E6B6B] hover:underline font-medium">
               Sign in here
             </Link>
           </p>
         </div>
 
         {serverError && (
-          <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700 flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-            <span>{serverError}</span>
+          <div className="p-3 bg-[#C0392B]/10 border border-[#C0392B]/20 rounded-[6px] text-xs text-[#C0392B]">
+            {serverError}
           </div>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-              Full Name
+            <label className="block text-xs font-medium text-[#1F2328] mb-1.5">
+              Full name
             </label>
-            <div className="relative">
-              <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                {...register('fullName')}
-                placeholder="Aarav Sharma"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-slate-900 transition"
-              />
-            </div>
-            {errors.fullName && <p className="text-xs text-rose-600 mt-1">{errors.fullName.message}</p>}
+            <input
+              type="text"
+              {...register('fullName')}
+              placeholder="Aarav Sharma"
+              className="w-full px-3 py-2 text-sm bg-white border border-[#E7E2DA] rounded-[6px] text-[#1F2328] placeholder-[#8B949E] focus-ring transition"
+            />
+            {errors.fullName && <p className="text-xs text-[#C0392B] mt-1">{errors.fullName.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-              Email Address
+            <label className="block text-xs font-medium text-[#1F2328] mb-1.5">
+              Email address
             </label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                {...register('email')}
-                placeholder="you@example.com"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-slate-900 transition"
-              />
-            </div>
-            {errors.email && <p className="text-xs text-rose-600 mt-1">{errors.email.message}</p>}
+            <input
+              type="email"
+              {...register('email')}
+              placeholder="name@example.com"
+              className="w-full px-3 py-2 text-sm bg-white border border-[#E7E2DA] rounded-[6px] text-[#1F2328] placeholder-[#8B949E] focus-ring transition"
+            />
+            {errors.email && <p className="text-xs text-[#C0392B] mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-              Phone Number (Optional)
+            <label className="block text-xs font-medium text-[#1F2328] mb-1.5">
+              Phone number (optional)
             </label>
-            <div className="relative">
-              <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="tel"
-                {...register('phone')}
-                placeholder="+91 98765 43210"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-slate-900 transition"
-              />
-            </div>
+            <input
+              type="tel"
+              {...register('phone')}
+              placeholder="+91 98765 43210"
+              className="w-full px-3 py-2 text-sm bg-white border border-[#E7E2DA] rounded-[6px] text-[#1F2328] placeholder-[#8B949E] focus-ring transition"
+            />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-              Password
+            <label className="block text-xs font-medium text-[#1F2328] mb-1.5">
+              Password (min. 8 characters)
             </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="password"
-                {...register('password')}
-                placeholder="Min. 8 characters"
-                className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-slate-900 transition"
-              />
-            </div>
-            {errors.password && <p className="text-xs text-rose-600 mt-1">{errors.password.message}</p>}
+            <input
+              type="password"
+              {...register('password')}
+              placeholder="••••••••"
+              className="w-full px-3 py-2 text-sm bg-white border border-[#E7E2DA] rounded-[6px] text-[#1F2328] placeholder-[#8B949E] focus-ring transition"
+            />
+            {errors.password && <p className="text-xs text-[#C0392B] mt-1">{errors.password.message}</p>}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold py-3 rounded-lg text-sm shadow-sm transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+            className="w-full bg-[#0E6B6B] hover:bg-[#0A5555] text-white font-medium py-2.5 rounded-[6px] text-sm transition-colors focus-ring disabled:opacity-50 flex items-center justify-center space-x-2"
           >
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Creating Account...</span>
+                <span>Creating account...</span>
               </>
             ) : (
-              <>
-                <span>Create Student Account</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
+              <span>Create account</span>
             )}
           </button>
         </form>

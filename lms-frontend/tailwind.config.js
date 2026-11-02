@@ -7,66 +7,45 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        serif: ['Fraunces', 'Source Serif 4', 'Georgia', 'serif'],
       },
       colors: {
-        // Refined, mature, human-designed educational palette (Oxford Navy & Slate)
-        brand: {
-          50: '#f0f4f8',
-          100: '#d9e2ec',
-          200: '#bcccdc',
-          300: '#9fb3c8',
-          400: '#627d98',
-          500: '#2b4c7e',
-          600: '#1e3a8a', // Deep Oxford Navy
-          700: '#172554',
-          800: '#0f172a',
-          900: '#0a0f1d',
-          950: '#050811',
+        bg: '#FAF8F5',
+        surface: '#FFFFFF',
+        border: '#E7E2DA',
+        ink: '#1F2328',
+        text: {
+          primary: '#1F2328',
+          secondary: '#5F6368',
         },
         primary: {
-          50: '#f0f4f8',
-          100: '#d9e2ec',
-          200: '#bcccdc',
-          300: '#9fb3c8',
-          400: '#627d98',
-          500: '#2b4c7e',
-          600: '#1e3a8a',
-          700: '#172554',
-          800: '#0f172a',
-          900: '#0a0f1d',
-          950: '#050811',
+          DEFAULT: '#0E6B6B',
+          hover: '#0A5555',
+          soft: '#E6F2F1',
         },
-        surface: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          800: '#0f172a',
-          900: '#0b0f19',
-        }
+        accent: {
+          DEFAULT: '#D9663A',
+          hover: '#C2552B',
+        },
+        success: '#2F855A',
+        warning: '#B7791F',
+        error: '#C0392B',
+      },
+      borderRadius: {
+        DEFAULT: '6px',
+        card: '8px',
+        input: '8px',
+        btn: '6px',
       },
       boxShadow: {
-        // Restrained, clean tactile shadows (removed tacky neon spreads)
-        'glow': '0 4px 14px -2px rgba(15, 23, 42, 0.08)',
-        'glow-sm': '0 2px 6px -1px rgba(15, 23, 42, 0.06)',
-        'glow-accent': '0 4px 14px -2px rgba(15, 23, 42, 0.08)',
-        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
-        'premium': '0 4px 20px -4px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.8)',
+        sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
+        card: '0 1px 2px rgba(0, 0, 0, 0.05)',
+        'card-hover': '0 2px 6px rgba(0, 0, 0, 0.07)',
       },
-      animation: {
-        'float-slow': 'float 6s ease-in-out infinite',
-        'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'shimmer': 'shimmer 2.5s linear infinite',
+      maxWidth: {
+        prose: '65ch',
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-6px)' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        }
-      }
     },
   },
   plugins: [],
