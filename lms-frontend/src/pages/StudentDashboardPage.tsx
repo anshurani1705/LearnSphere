@@ -58,22 +58,22 @@ export const StudentDashboardPage: React.FC = () => {
   const inProgressCount = enrollments.length - completedCount;
 
   return (
-    <div className="flex-1 bg-[#FAF8F5] py-12 lg:py-16">
+    <div className="flex-1 bg-[#FAF8F5] dark:bg-[#14171A] py-12 lg:py-16 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Editorial Greeting Header */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-[#E7E2DA]">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 pb-6 border-b border-[#E7E2DA] dark:border-[#2A3038]">
           <div>
-            <h1 className="font-serif font-semibold text-3xl text-[#1F2328] tracking-tight">
+            <h1 className="font-serif font-semibold text-3xl text-[#1F2328] dark:text-[#E6EDF3] tracking-tight">
               Pick up where you left off
             </h1>
-            <p className="text-sm text-[#5F6368] mt-1">
+            <p className="text-sm text-[#5F6368] dark:text-[#8B949E] mt-1">
               Welcome back, {user?.fullName || 'student'}. Track your progress and finish your next lesson.
             </p>
           </div>
 
           <Link
             to="/courses"
-            className="text-xs font-medium text-[#0E6B6B] hover:underline"
+            className="text-xs font-medium text-[#0E6B6B] dark:text-[#149B9B] hover:underline"
           >
             Explore all courses &rarr;
           </Link>
@@ -82,7 +82,7 @@ export const StudentDashboardPage: React.FC = () => {
         {/* 1. Continue Learning Section (FIRST) */}
         <div>
           <div className="mb-4">
-            <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+            <h2 className="font-serif font-semibold text-xl text-[#1F2328] dark:text-[#E6EDF3]">
               In-progress courses
             </h2>
           </div>
@@ -90,7 +90,7 @@ export const StudentDashboardPage: React.FC = () => {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[1, 2].map((i) => (
-                <div key={i} className="h-40 bg-white border border-[#E7E2DA] rounded-[8px] p-5 animate-pulse"></div>
+                <div key={i} className="h-40 bg-white dark:bg-[#1C2025] border border-[#E7E2DA] dark:border-[#2A3038] rounded-[8px] p-5 animate-pulse"></div>
               ))}
             </div>
           ) : enrollments.length > 0 ? (
@@ -98,11 +98,11 @@ export const StudentDashboardPage: React.FC = () => {
               {enrollments.map((item) => (
                 <div
                   key={item.enrollmentId}
-                  className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] transition-colors flex flex-col justify-between"
+                  className="bg-white dark:bg-[#1C2025] p-5 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] dark:hover:border-[#3E4651] transition-colors flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-start space-x-3.5 mb-3">
-                      <div className="w-20 h-14 rounded-[6px] bg-[#FAF8F5] overflow-hidden shrink-0 border border-[#E7E2DA]">
+                      <div className="w-20 h-14 rounded-[6px] bg-[#FAF8F5] dark:bg-[#14171A] overflow-hidden shrink-0 border border-[#E7E2DA] dark:border-[#2A3038]">
                         <img
                           src={getCourseThumbnail(item.course)}
                           alt={item.course.title}
@@ -115,12 +115,12 @@ export const StudentDashboardPage: React.FC = () => {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2 text-xs text-[#5F6368] mb-1">
+                        <div className="flex items-center space-x-2 text-xs text-[#5F6368] dark:text-[#8B949E] mb-1">
                           <span>{item.course.level}</span>
                           <span>&bull;</span>
                           <span>{item.status === 'COMPLETED' ? 'Completed' : 'In progress'}</span>
                         </div>
-                        <h3 className="font-serif font-semibold text-base text-[#1F2328] line-clamp-1">
+                        <h3 className="font-serif font-semibold text-base text-[#1F2328] dark:text-[#E6EDF3] line-clamp-1">
                           {item.course.title}
                         </h3>
                       </div>
@@ -128,13 +128,13 @@ export const StudentDashboardPage: React.FC = () => {
 
                     {/* Primary Progress Bar */}
                     <div className="space-y-1.5 my-3">
-                      <div className="flex justify-between text-xs text-[#5F6368]">
+                      <div className="flex justify-between text-xs text-[#5F6368] dark:text-[#8B949E]">
                         <span>Curriculum progress</span>
-                        <span className="font-medium text-[#1F2328]">{item.progressPct}%</span>
+                        <span className="font-medium text-[#1F2328] dark:text-[#E6EDF3]">{item.progressPct}%</span>
                       </div>
-                      <div className="w-full bg-[#FAF8F5] h-2 rounded-full overflow-hidden border border-[#E7E2DA]">
+                      <div className="w-full bg-[#FAF8F5] dark:bg-[#14171A] h-2 rounded-full overflow-hidden border border-[#E7E2DA] dark:border-[#2A3038]">
                         <div
-                          className="bg-[#0E6B6B] h-full rounded-full transition-all duration-300"
+                          className="bg-[#0E6B6B] dark:bg-[#149B9B] h-full rounded-full transition-all duration-300"
                           style={{ width: `${item.progressPct}%` }}
                         ></div>
                       </div>
@@ -144,7 +144,7 @@ export const StudentDashboardPage: React.FC = () => {
                   <div className="pt-2">
                     <Link
                       to={`/learn/${item.course.id}`}
-                      className="inline-flex items-center justify-center text-xs font-medium bg-[#0E6B6B] hover:bg-[#0A5555] text-white px-4 py-2 rounded-[6px] transition-colors w-full"
+                      className="inline-flex items-center justify-center text-xs font-medium bg-[#0E6B6B] hover:bg-[#0A5555] dark:bg-[#149B9B] dark:hover:bg-[#118585] text-white px-4 py-2 rounded-[6px] transition-colors w-full"
                     >
                       <span>Continue lesson</span>
                       <span className="ml-1" aria-hidden="true">&rarr;</span>
@@ -154,16 +154,16 @@ export const StudentDashboardPage: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-[8px] border border-[#E7E2DA] p-10 text-center max-w-md mx-auto shadow-sm">
-              <h3 className="font-serif font-semibold text-base text-[#1F2328] mb-1">
+            <div className="bg-white dark:bg-[#1C2025] rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] p-10 text-center max-w-md mx-auto shadow-sm">
+              <h3 className="font-serif font-semibold text-base text-[#1F2328] dark:text-[#E6EDF3] mb-1">
                 You haven't enrolled in any courses yet
               </h3>
-              <p className="text-xs text-[#5F6368] mb-4">
+              <p className="text-xs text-[#5F6368] dark:text-[#8B949E] mb-4">
                 Explore our project-based curriculum to get started.
               </p>
               <Link
                 to="/courses"
-                className="inline-block bg-[#0E6B6B] text-white font-medium text-xs px-4 py-2 rounded-[6px] hover:bg-[#0A5555] transition"
+                className="inline-block bg-[#0E6B6B] hover:bg-[#0A5555] dark:bg-[#149B9B] dark:hover:bg-[#118585] text-white font-medium text-xs px-4 py-2 rounded-[6px] transition"
               >
                 Browse catalog
               </Link>
@@ -174,28 +174,28 @@ export const StudentDashboardPage: React.FC = () => {
         {/* 2. Simple Stats Row */}
         <div>
           <div className="mb-4">
-            <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+            <h2 className="font-serif font-semibold text-xl text-[#1F2328] dark:text-[#E6EDF3]">
               Learning overview
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-              <p className="text-xs text-[#5F6368]">Active enrollments</p>
-              <p className="font-serif font-semibold text-2xl text-[#1F2328] mt-1">{enrollments.length}</p>
-              <p className="text-[11px] text-[#5F6368] mt-0.5">{inProgressCount} in progress</p>
+            <div className="bg-white dark:bg-[#1C2025] p-5 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+              <p className="text-xs text-[#5F6368] dark:text-[#8B949E]">Active enrollments</p>
+              <p className="font-serif font-semibold text-2xl text-[#1F2328] dark:text-[#E6EDF3] mt-1">{enrollments.length}</p>
+              <p className="text-[11px] text-[#5F6368] dark:text-[#8B949E] mt-0.5">{inProgressCount} in progress</p>
             </div>
 
-            <div className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-              <p className="text-xs text-[#5F6368]">Completed tracks</p>
-              <p className="font-serif font-semibold text-2xl text-[#1F2328] mt-1">{completedCount}</p>
+            <div className="bg-white dark:bg-[#1C2025] p-5 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+              <p className="text-xs text-[#5F6368] dark:text-[#8B949E]">Completed tracks</p>
+              <p className="font-serif font-semibold text-2xl text-[#1F2328] dark:text-[#E6EDF3] mt-1">{completedCount}</p>
               <p className="text-[11px] text-[#2F855A] mt-0.5">Assessed & certified</p>
             </div>
 
-            <div className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-              <p className="text-xs text-[#5F6368]">Verified credentials</p>
-              <p className="font-serif font-semibold text-2xl text-[#1F2328] mt-1">{certificates.length}</p>
-              <p className="text-[11px] text-[#0E6B6B] mt-0.5">Shareable on LinkedIn</p>
+            <div className="bg-white dark:bg-[#1C2025] p-5 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+              <p className="text-xs text-[#5F6368] dark:text-[#8B949E]">Verified credentials</p>
+              <p className="font-serif font-semibold text-2xl text-[#1F2328] dark:text-[#E6EDF3] mt-1">{certificates.length}</p>
+              <p className="text-[11px] text-[#0E6B6B] dark:text-[#149B9B] mt-0.5">Shareable on LinkedIn</p>
             </div>
           </div>
         </div>
@@ -203,10 +203,10 @@ export const StudentDashboardPage: React.FC = () => {
         {/* 3. Earned Certificates Section */}
         <div>
           <div className="mb-4">
-            <h2 className="font-serif font-semibold text-xl text-[#1F2328]">
+            <h2 className="font-serif font-semibold text-xl text-[#1F2328] dark:text-[#E6EDF3]">
               Earned certificates
             </h2>
-            <p className="text-xs text-[#5F6368]">Accredited PDF credentials with public verification</p>
+            <p className="text-xs text-[#5F6368] dark:text-[#8B949E]">Accredited PDF credentials with public verification</p>
           </div>
 
           {certificates.length > 0 ? (
@@ -214,22 +214,22 @@ export const StudentDashboardPage: React.FC = () => {
               {certificates.map((cert) => (
                 <div
                   key={cert.id}
-                  className="bg-white p-5 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] transition-all flex flex-col justify-between"
+                  className="bg-white dark:bg-[#1C2025] p-5 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] dark:hover:border-[#3E4651] transition-all flex flex-col justify-between"
                 >
                   <div>
-                    <h3 className="font-serif font-semibold text-[#1F2328] text-base mb-1 line-clamp-1">{cert.courseTitle}</h3>
-                    <p className="text-xs text-[#5F6368] mb-3">Issued on {cert.issueDate}</p>
+                    <h3 className="font-serif font-semibold text-[#1F2328] dark:text-[#E6EDF3] text-base mb-1 line-clamp-1">{cert.courseTitle}</h3>
+                    <p className="text-xs text-[#5F6368] dark:text-[#8B949E] mb-3">Issued on {cert.issueDate}</p>
 
-                    <div className="bg-[#FAF8F5] p-2.5 rounded-[6px] border border-[#E7E2DA] mb-3 font-mono text-xs text-[#5F6368]">
-                      ID: <span className="font-medium text-[#1F2328]">{cert.certificateId}</span>
+                    <div className="bg-[#FAF8F5] dark:bg-[#14171A] p-2.5 rounded-[6px] border border-[#E7E2DA] dark:border-[#2A3038] mb-3 font-mono text-xs text-[#5F6368] dark:text-[#8B949E]">
+                      ID: <span className="font-medium text-[#1F2328] dark:text-[#E6EDF3]">{cert.certificateId}</span>
                     </div>
                   </div>
 
-                  <div className="space-y-2 pt-2 border-t border-[#E7E2DA]">
+                  <div className="space-y-2 pt-2 border-t border-[#E7E2DA] dark:border-[#2A3038]">
                     <button
                       onClick={() => downloadCertificate(cert.certificateId)}
                       disabled={downloadingCertId === cert.certificateId}
-                      className="w-full flex items-center justify-center space-x-1.5 bg-[#0E6B6B] hover:bg-[#0A5555] text-white text-xs font-medium py-2 rounded-[6px] transition disabled:opacity-60"
+                      className="w-full flex items-center justify-center space-x-1.5 bg-[#0E6B6B] hover:bg-[#0A5555] dark:bg-[#149B9B] dark:hover:bg-[#118585] text-white text-xs font-medium py-2 rounded-[6px] transition disabled:opacity-60"
                     >
                       {downloadingCertId === cert.certificateId ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />

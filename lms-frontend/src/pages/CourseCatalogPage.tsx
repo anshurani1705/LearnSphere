@@ -36,34 +36,34 @@ export const CourseCatalogPage: React.FC = () => {
   }, [searchTerm, selectedLevel]);
 
   return (
-    <div className="flex-1 bg-[#FAF8F5] py-12 lg:py-16">
+    <div className="flex-1 bg-[#FAF8F5] dark:bg-[#14171A] py-12 lg:py-16 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-10 max-w-2xl">
-          <h1 className="font-serif font-semibold text-3xl sm:text-4xl text-[#1F2328] tracking-tight">
+          <h1 className="font-serif font-semibold text-3xl sm:text-4xl text-[#1F2328] dark:text-[#E6EDF3] tracking-tight">
             Explore courses
           </h1>
-          <p className="text-sm sm:text-base text-[#5F6368] mt-2 leading-relaxed">
+          <p className="text-sm sm:text-base text-[#5F6368] dark:text-[#8B949E] mt-2 leading-relaxed">
             Every course includes hands-on exercises, real code repositories, and an accredited certificate upon completion.
           </p>
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-white p-4 rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] mb-10 flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="bg-white dark:bg-[#1C2025] p-4 rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)] mb-10 flex flex-col md:flex-row gap-4 items-center justify-between">
           {/* Search Input */}
           <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 text-[#5F6368] absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#5F6368] dark:text-[#8B949E] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by topic or skill..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-8 py-2 bg-[#FAF8F5] border border-[#E7E2DA] rounded-[6px] text-sm text-[#1F2328] placeholder-[#5F6368] focus-ring transition"
+              className="w-full pl-9 pr-8 py-2 bg-[#FAF8F5] dark:bg-[#14171A] border border-[#E7E2DA] dark:border-[#2A3038] rounded-[6px] text-sm text-[#1F2328] dark:text-[#E6EDF3] placeholder-[#5F6368] dark:placeholder-[#8B949E] focus-ring transition"
             />
             {searchTerm && (
               <button
                 onClick={() => setSearchTerm('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#5F6368] hover:text-[#1F2328]"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#5F6368] dark:text-[#8B949E] hover:text-[#1F2328] dark:hover:text-[#E6EDF3]"
                 aria-label="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
@@ -73,7 +73,7 @@ export const CourseCatalogPage: React.FC = () => {
 
           {/* Level Filter Chips */}
           <div className="flex items-center space-x-2 w-full md:w-auto overflow-x-auto">
-            <span className="text-xs text-[#5F6368] mr-1">Level:</span>
+            <span className="text-xs text-[#5F6368] dark:text-[#8B949E] mr-1">Level:</span>
             {[
               { id: '', label: 'All levels' },
               { id: 'BEGINNER', label: 'Beginner' },
@@ -87,8 +87,8 @@ export const CourseCatalogPage: React.FC = () => {
                   onClick={() => setSelectedLevel(level.id)}
                   className={`px-3 py-1.5 text-xs font-medium rounded-[6px] transition-colors shrink-0 ${
                     active
-                      ? 'bg-[#0E6B6B] text-white'
-                      : 'bg-white text-[#1F2328] border border-[#E7E2DA] hover:bg-[#FAF8F5]'
+                      ? 'bg-[#0E6B6B] dark:bg-[#149B9B] text-white'
+                      : 'bg-white dark:bg-[#1C2025] text-[#1F2328] dark:text-[#E6EDF3] border border-[#E7E2DA] dark:border-[#2A3038] hover:bg-[#FAF8F5] dark:hover:bg-[#232931]'
                   }`}
                 >
                   {level.label}
@@ -102,14 +102,14 @@ export const CourseCatalogPage: React.FC = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-96 rounded-[8px] bg-white border border-[#E7E2DA] p-4 flex flex-col justify-between">
-                <div className="aspect-video bg-[#FAF8F5] rounded-[6px] animate-pulse"></div>
+              <div key={i} className="h-96 rounded-[8px] bg-white dark:bg-[#1C2025] border border-[#E7E2DA] dark:border-[#2A3038] p-4 flex flex-col justify-between">
+                <div className="aspect-video bg-[#FAF8F5] dark:bg-[#14171A] rounded-[6px] animate-pulse"></div>
                 <div className="space-y-3 py-4">
-                  <div className="h-3 bg-[#FAF8F5] rounded w-1/4 animate-pulse"></div>
-                  <div className="h-5 bg-[#FAF8F5] rounded w-3/4 animate-pulse"></div>
-                  <div className="h-3 bg-[#FAF8F5] rounded w-full animate-pulse"></div>
+                  <div className="h-3 bg-[#FAF8F5] dark:bg-[#14171A] rounded w-1/4 animate-pulse"></div>
+                  <div className="h-5 bg-[#FAF8F5] dark:bg-[#14171A] rounded w-3/4 animate-pulse"></div>
+                  <div className="h-3 bg-[#FAF8F5] dark:bg-[#14171A] rounded w-full animate-pulse"></div>
                 </div>
-                <div className="h-8 bg-[#FAF8F5] rounded-[6px] animate-pulse"></div>
+                <div className="h-8 bg-[#FAF8F5] dark:bg-[#14171A] rounded-[6px] animate-pulse"></div>
               </div>
             ))}
           </div>

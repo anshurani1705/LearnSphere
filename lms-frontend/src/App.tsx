@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -38,12 +39,13 @@ import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 
 export const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
-          <Navbar />
-          <main className="flex-1 flex flex-col">
-            <Routes>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen flex flex-col bg-[#FAF8F5] dark:bg-[#14171A] text-[#1F2328] dark:text-[#E6EDF3] transition-colors duration-200">
+            <Navbar />
+            <main className="flex-1 flex flex-col">
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/courses" element={<CourseCatalogPage />} />
@@ -180,6 +182,7 @@ export const App: React.FC = () => {
         </div>
       </Router>
     </AuthProvider>
+    </ThemeProvider>
   );
 };
 

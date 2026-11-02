@@ -48,9 +48,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
   const thumbnail = getCourseThumbnail(course);
 
   return (
-    <article className="group bg-white rounded-[8px] border border-[#E7E2DA] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] transition-colors flex flex-col h-full overflow-hidden">
+    <article className="group bg-white dark:bg-[#1C2025] rounded-[8px] border border-[#E7E2DA] dark:border-[#2A3038] shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:border-[#D1C9BE] dark:hover:border-[#3E4651] transition-colors flex flex-col h-full overflow-hidden">
       {/* 16:9 Image */}
-      <Link to={isEnrolled ? `/learn/${course.id}` : `/courses/${course.slug}`} className="block relative aspect-video bg-[#FAF8F5] overflow-hidden">
+      <Link to={isEnrolled ? `/learn/${course.id}` : `/courses/${course.slug}`} className="block relative aspect-video bg-[#FAF8F5] dark:bg-[#14171A] overflow-hidden">
         <img
           src={thumbnail}
           alt={course.title}
@@ -67,7 +67,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Metadata row: plain text tags */}
-          <div className="flex items-center space-x-2 text-xs text-[#5F6368] mb-2">
+          <div className="flex items-center space-x-2 text-xs text-[#5F6368] dark:text-[#8B949E] mb-2">
             <span>{levelLabel}</span>
             {course.durationHours && (
               <>
@@ -83,26 +83,26 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
             )}
           </div>
 
-          <h3 className="font-serif font-semibold text-lg text-[#1F2328] group-hover:text-[#0E6B6B] transition-colors line-clamp-2 leading-snug mb-2">
+          <h3 className="font-serif font-semibold text-lg text-[#1F2328] dark:text-[#E6EDF3] group-hover:text-[#0E6B6B] dark:group-hover:text-[#149B9B] transition-colors line-clamp-2 leading-snug mb-2">
             <Link to={isEnrolled ? `/learn/${course.id}` : `/courses/${course.slug}`}>
               {course.title}
             </Link>
           </h3>
 
-          <p className="text-sm text-[#5F6368] line-clamp-2 leading-relaxed mb-4">
+          <p className="text-sm text-[#5F6368] dark:text-[#8B949E] line-clamp-2 leading-relaxed mb-4">
             {course.shortDescription || 'Hands-on curriculum focused on practical projects and fundamentals.'}
           </p>
         </div>
 
         {/* Pricing & Single Clear Action */}
-        <div className="pt-3 border-t border-[#E7E2DA] flex items-center justify-between mt-auto">
+        <div className="pt-3 border-t border-[#E7E2DA] dark:border-[#2A3038] flex items-center justify-between mt-auto">
           <div>
             <div className="flex items-baseline space-x-2">
-              <span className="text-base font-semibold text-[#1F2328]">
+              <span className="text-base font-semibold text-[#1F2328] dark:text-[#E6EDF3]">
                 ₹{course.price.toLocaleString('en-IN')}
               </span>
               {course.originalPrice && course.originalPrice > course.price && (
-                <span className="text-xs text-[#8B949E] line-through">
+                <span className="text-xs text-[#8B949E] dark:text-[#6E7681] line-through">
                   ₹{course.originalPrice.toLocaleString('en-IN')}
                 </span>
               )}
@@ -112,14 +112,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
           {isEnrolled ? (
             <Link
               to={`/learn/${course.id}`}
-              className="inline-flex items-center text-xs font-medium bg-[#E6F2F1] text-[#0E6B6B] hover:bg-[#0E6B6B] hover:text-white px-3.5 py-1.5 rounded-[6px] transition-colors"
+              className="inline-flex items-center text-xs font-medium bg-[#E6F2F1] dark:bg-[#172D2D] text-[#0E6B6B] dark:text-[#149B9B] hover:bg-[#0E6B6B] hover:text-white dark:hover:bg-[#149B9B] dark:hover:text-white px-3.5 py-1.5 rounded-[6px] transition-colors"
             >
               Continue
             </Link>
           ) : (
             <Link
               to={`/courses/${course.slug}`}
-              className="inline-flex items-center text-xs font-medium text-[#0E6B6B] hover:text-[#0A5555] px-2 py-1 transition-colors"
+              className="inline-flex items-center text-xs font-medium text-[#0E6B6B] dark:text-[#149B9B] hover:text-[#0A5555] dark:hover:text-[#1DB3B3] px-2 py-1 transition-colors"
             >
               <span>View course</span>
               <span className="ml-1" aria-hidden="true">&rarr;</span>
