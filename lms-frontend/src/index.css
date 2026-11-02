@@ -8,68 +8,72 @@
     color-scheme: light;
   }
   body {
-    @apply font-sans bg-[#FAFAF8] text-[#20252B] antialiased selection:bg-[#172B4D] selection:text-white;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-[#20252B] tracking-tight;
+    @apply font-sans bg-[#FAFAF8] text-[#1E293B] antialiased selection:bg-[#1E3A8A] selection:text-white;
   }
 }
 
 @layer utilities {
-  /* Subtle, restrained surfaces */
-  .surface-card {
-    @apply bg-white border border-[#E5E7EB] rounded-lg shadow-card hover:border-slate-300 transition-colors;
-  }
-  .surface-card-interactive {
-    @apply bg-white border border-[#E5E7EB] rounded-lg shadow-card hover:shadow-card-hover hover:border-slate-300 transition-all duration-200;
-  }
-
-  /* Backward-compatible classes */
-  .glass-card {
-    @apply bg-white border border-[#E5E7EB] rounded-lg shadow-card;
-  }
-  .glass-card-dark {
-    @apply bg-[#172B4D] border border-slate-700/80 rounded-lg text-white;
-  }
-  .glass-navbar {
-    @apply bg-white/95 backdrop-blur-md border-b border-[#E5E7EB];
-  }
-  .badge-glow {
-    box-shadow: 0 1px 2px rgba(23, 43, 77, 0.05);
-  }
-
-  /* Accessible, professional focus ring */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:ring-offset-2;
-  }
-
-  /* Text gradients replaced with clean, solid typography */
+  /* Restrained, professional brand text gradient (Deep Navy to Slate) */
   .text-gradient {
-    @apply text-[#172B4D];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-blue-800;
   }
   .text-gradient-purple {
-    @apply text-[#172B4D];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-blue-700;
   }
   .text-gradient-light {
     @apply text-white;
   }
+
+  /* Solid, high-contrast surfaces over frosted glass */
+  .surface-card {
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 transition-colors;
+  }
+  .surface-card-interactive {
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 hover:shadow-md transition-all duration-200;
+  }
+
+  /* Backward-compatible wrappers mapped to clean solid/subtle surfaces */
+  .glass-card {
+    @apply bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 transition-colors;
+  }
+  .glass-card-dark {
+    @apply bg-slate-900 border border-slate-800 rounded-xl shadow-md;
+  }
+  .glass-navbar {
+    @apply bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)];
+  }
+  .badge-glow {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  }
+
+  /* Accessible focus ring token */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-offset-2;
+  }
 }
 
-/* Custom Minimalist Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
-
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+/* Subtle, tactile card hover */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  border-color: #cbd5e1;
 }

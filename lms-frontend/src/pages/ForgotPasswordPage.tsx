@@ -6,13 +6,13 @@ import {
   Mail,
   Lock,
   KeyRound,
+  AlertCircle,
+  CheckCircle,
   Eye,
   EyeOff,
   ArrowLeft,
   RotateCw,
-  Loader2,
 } from 'lucide-react';
-import { Alert } from '../components/ui/Alert';
 
 export const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
@@ -59,20 +59,16 @@ export const ForgotPasswordPage: React.FC = () => {
     setSuccessMsg(null);
 
     try {
-      await api.post('/v1/auth/otp/request', {
-        email: cleanEmail,
-        purpose: 'PASSWORD_RESET',
-      });
-
-      setSuccessMsg(`A 6-digit verification code has been dispatched to ${cleanEmail}. Please check your inbox.`);
-      setStep('VERIFY');
-      setResendCooldown(30);
+      const res = await api.post('/v1/auth/forgot-password', { email: cleanEmail });
+      if (res.data?.success) {
+        setSuccessMsg(res.data.message || 'Verification code sent to your email.');
+        setStep('VERIFY');
+        setResendCooldown(60); // 60s cooldown
+      } else {
+        setError(res.data?.message || 'Failed to send verification code. Please check email address.');
+      }
     } catch (err: any) {
-      const msg =
-        err?.message ||
-        err?.response?.data?.message ||
-        (typeof err === 'string' ? err : 'Failed to dispatch verification code');
-      setError(msg);
+      setError(err.message || 'Failed to send verification code. Please check email address.');
     } finally {
       setLoading(false);
     }
@@ -80,41 +76,44 @@ export const ForgotPasswordPage: React.FC = () => {
 
   const handleResetConfirm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-
     const cleanOtp = otp.trim();
+
     if (!cleanOtp || cleanOtp.length !== 6) {
       setError('Please enter the 6-digit verification code.');
       return;
     }
-
-    if (newPassword.length < 8) {
+    if (!newPassword || newPassword.length < 8) {
       setError('New password must be at least 8 characters long.');
       return;
     }
-
     if (newPassword !== confirmPassword) {
-      setError('New password and confirm password do not match.');
+      setError('Passwords do not match.');
       return;
     }
 
     setLoading(true);
+    setError(null);
+    setSuccessMsg(null);
+
     try {
-      await api.post('/v1/auth/password/reset-confirm', {
+      const res = await api.post('/v1/auth/reset-password', {
         email: email.trim().toLowerCase(),
         otp: cleanOtp,
-        newPassword: newPassword.trim(),
+        newPassword,
       });
 
-      navigate('/login', {
-        state: { message: 'Password reset successfully! You can now log in with your new credentials.' },
-      });
+      if (res.data?.success) {
+        setSuccessMsg('Password updated successfully! Redirecting to sign in...');
+        setTimeout(() => {
+          navigate('/login', {
+            state: { message: 'Password reset successful. Please sign in with your new password.' },
+          });
+        }, 1500);
+      } else {
+        setError(res.data?.message || 'Invalid or expired verification code.');
+      }
     } catch (err: any) {
-      const msg =
-        err?.message ||
-        err?.response?.data?.message ||
-        (typeof err === 'string' ? err : 'Password reset failed. Please verify your OTP code.');
-      setError(msg);
+      setError(err.message || 'Invalid or expired verification code.');
     } finally {
       setLoading(false);
     }
@@ -122,49 +121,55 @@ export const ForgotPasswordPage: React.FC = () => {
 
   return (
     <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#FAFAF8]">
-      <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-lg border border-[#E5E7EB] shadow-card space-y-6">
+      <div className="max-w-md w-full bg-white p-8 rounded-xl border border-slate-200 shadow-sm space-y-6">
         <div className="text-center">
-          <Link to="/" className="inline-flex items-center space-x-2 group">
-            <div className="w-8 h-8 rounded-md bg-[#172B4D] flex items-center justify-center text-white">
-              <GraduationCap className="w-5 h-5 text-teal-300" />
+          <Link to="/" className="inline-flex items-center space-x-2 text-slate-900 font-bold text-2xl">
+            <div className="w-9 h-9 rounded-lg bg-[#0F172A] flex items-center justify-center text-white shadow-sm">
+              <GraduationCap className="w-5 h-5 text-blue-300" />
             </div>
-            <span className="font-bold text-xl tracking-tight text-[#172B4D]">
-              Skill<span className="text-[#287C78]">Forge</span>
+            <span>
+              Skill<span className="text-blue-700">Forge</span>
             </span>
           </Link>
-          <h2 className="mt-4 text-xl font-bold text-[#20252B] tracking-tight">
+          <h2 className="mt-4 text-2xl font-bold text-slate-900">
             {step === 'REQUEST' ? 'Reset your password' : 'Enter Verification Code'}
           </h2>
-          <p className="mt-1 text-xs text-[#697386]">
+          <p className="mt-1 text-xs text-slate-500">
             {step === 'REQUEST' ? (
               <>
                 Remember your credentials?{' '}
-                <Link to="/login" className="font-medium text-[#287C78] hover:underline">
+                <Link to="/login" className="font-semibold text-blue-700 hover:text-blue-800">
                   Sign in
                 </Link>
               </>
             ) : (
-              <span>Enter the 6-digit verification code sent to your email.</span>
+              <span>Follow the instructions below to reset your password.</span>
             )}
           </p>
         </div>
 
         {error && (
-          <Alert type="error" message={error} />
+          <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700 flex items-start space-x-2">
+            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+            <span>{error}</span>
+          </div>
         )}
 
         {successMsg && (
-          <Alert type="success" message={successMsg} />
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-start space-x-2">
+            <CheckCircle className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
+            <span>{successMsg}</span>
+          </div>
         )}
 
         {step === 'REQUEST' ? (
           <form onSubmit={handleRequestOtp} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Registered Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
@@ -174,7 +179,7 @@ export const ForgotPasswordPage: React.FC = () => {
                     if (error) setError(null);
                   }}
                   placeholder="you@example.com"
-                  className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
+                  className="w-full pl-10 pr-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-900"
                 />
               </div>
             </div>
@@ -182,23 +187,16 @@ export const ForgotPasswordPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#172B4D] hover:bg-[#0F1E36] text-white font-medium py-2.5 rounded-md text-xs sm:text-sm shadow-sm transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+              className="w-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold py-2.5 rounded-lg text-sm shadow-sm transition-colors disabled:opacity-50"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Sending Verification Code...</span>
-                </>
-              ) : (
-                <span>Send Verification Code</span>
-              )}
+              {loading ? 'Sending Code...' : 'Send Verification Code'}
             </button>
           </form>
         ) : (
           <form onSubmit={handleResetConfirm} className="space-y-4">
-            <div className="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-md border border-[#E5E7EB]">
-              <span className="text-[#697386] truncate max-w-[220px]">
-                Sent to: <strong className="text-[#20252B]">{email}</strong>
+            <div className="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+              <span className="text-slate-600 truncate max-w-[220px]">
+                Sent to: <strong className="text-slate-900">{email}</strong>
               </span>
               <button
                 type="button"
@@ -206,7 +204,7 @@ export const ForgotPasswordPage: React.FC = () => {
                   setStep('REQUEST');
                   setError(null);
                 }}
-                className="text-[#287C78] hover:underline font-medium inline-flex items-center space-x-1"
+                className="text-blue-700 hover:text-blue-800 font-semibold inline-flex items-center space-x-1"
               >
                 <ArrowLeft className="w-3 h-3" />
                 <span>Change</span>
@@ -214,12 +212,12 @@ export const ForgotPasswordPage: React.FC = () => {
             </div>
 
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-semibold text-[#20252B]">
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
                   6-Digit Verification Code
                 </label>
                 {resendCooldown > 0 ? (
-                  <span className="text-[11px] text-[#697386]">
+                  <span className="text-[11px] text-slate-400 font-medium">
                     Resend in {resendCooldown}s
                   </span>
                 ) : (
@@ -227,7 +225,7 @@ export const ForgotPasswordPage: React.FC = () => {
                     type="button"
                     onClick={() => handleRequestOtp()}
                     disabled={loading}
-                    className="text-[11px] text-[#287C78] hover:underline font-medium inline-flex items-center space-x-1 disabled:opacity-50"
+                    className="text-[11px] text-blue-700 hover:text-blue-800 font-semibold inline-flex items-center space-x-1 disabled:opacity-50"
                   >
                     <RotateCw className="w-3 h-3" />
                     <span>Resend Code</span>
@@ -235,7 +233,7 @@ export const ForgotPasswordPage: React.FC = () => {
                 )}
               </div>
               <div className="relative">
-                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   required
@@ -243,17 +241,17 @@ export const ForgotPasswordPage: React.FC = () => {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
                   placeholder="123456"
-                  className="w-full pl-9 pr-3 py-2 text-sm sm:text-base tracking-widest font-mono bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] font-bold"
+                  className="w-full pl-10 pr-3 py-2 text-base tracking-widest font-mono bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-900 font-bold"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 New Password (Minimum 8 chars)
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -261,12 +259,12 @@ export const ForgotPasswordPage: React.FC = () => {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
+                  className="w-full pl-10 pr-10 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-900"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -274,11 +272,11 @@ export const ForgotPasswordPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#20252B] mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
                 Confirm New Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   required
@@ -286,12 +284,12 @@ export const ForgotPasswordPage: React.FC = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm bg-slate-50 border border-[#E5E7EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#172B4D] focus:bg-white text-[#20252B] transition"
+                  className="w-full pl-10 pr-10 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-slate-900"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 >
                   {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -304,16 +302,9 @@ export const ForgotPasswordPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading || (confirmPassword.length > 0 && newPassword !== confirmPassword)}
-              className="w-full bg-[#172B4D] hover:bg-[#0F1E36] text-white font-medium py-2.5 rounded-md text-xs sm:text-sm shadow-sm transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+              className="w-full bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold py-2.5 rounded-lg text-sm shadow-sm transition-colors disabled:opacity-50"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Resetting Password...</span>
-                </>
-              ) : (
-                <span>Save New Password & Sign In</span>
-              )}
+              {loading ? 'Resetting Password...' : 'Save New Password & Sign In'}
             </button>
           </form>
         )}

@@ -11,6 +11,7 @@ const baseURL =
 export const api = axios.create({
   baseURL,
   withCredentials: true,
+  timeout: 45000, // 45 seconds to accommodate Render free-tier cold starts
   headers: {
     'Content-Type': 'application/json',
   },
@@ -25,15 +26,41 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor to unwrap data and handle 401 & network errors gracefully
+// Response interceptor to unwrap data, handle 401, and auto-retry on Render cold starts
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.message === 'Network Error' || !error.response) {
-      return Promise.reject({
-        message: 'Unable to connect to backend server. The free cloud container may be waking up from sleep mode—please wait 30–45 seconds and retry.',
-      });
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Detect network failure or timeout during Render cold-start spinup
+    const isNetworkError =
+      !error.response ||
+      error.code === 'ERR_NETWORK' ||
+      error.code === 'ECONNABORTED' ||
+      error.message === 'Network Error';
+
+    // Auto-retry once after 2.5s if it was a network error during server wakeup
+    if (isNetworkError && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        return await api(originalRequest);
+      } catch (retryErr: any) {
+        return Promise.reject(
+          retryErr.response?.data || {
+            message:
+              'The server is waking up from idle on Render. Please wait 10 seconds and try again.',
+          }
+        );
+      }
     }
-    return Promise.reject(error.response?.data || { message: error.message });
+
+    const message =
+      error.response?.data?.message ||
+      (isNetworkError
+        ? 'The backend server is currently starting up. Please try again in a few seconds.'
+        : error.message || 'An unexpected error occurred.');
+
+    return Promise.reject(error.response?.data || { message });
   }
 );
