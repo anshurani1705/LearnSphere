@@ -1,7 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseSummary } from '../types';
-import { Clock, User, ArrowRight, BookOpen, Star, Sparkles, Play } from 'lucide-react';
+import { Clock, User, ArrowRight, Star, Sparkles, Play } from 'lucide-react';
+
+export const DEFAULT_COURSE_THUMBNAILS: Record<string, string> = {
+  'full-stack-web-development-bootcamp':
+    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
+  'data-science-with-python':
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+  'digital-marketing-masterclass':
+    'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=800&q=80',
+  'cloud-architecture-with-aws':
+    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+};
+
+export const getCourseThumbnail = (course: { thumbnailUrl?: string | null; slug?: string; title?: string }): string => {
+  if (course.thumbnailUrl && course.thumbnailUrl.trim() !== '') {
+    return course.thumbnailUrl;
+  }
+  if (course.slug && DEFAULT_COURSE_THUMBNAILS[course.slug]) {
+    return DEFAULT_COURSE_THUMBNAILS[course.slug];
+  }
+  const title = (course.title || '').toLowerCase();
+  if (title.includes('python') || title.includes('data') || title.includes('ai') || title.includes('machine')) {
+    return DEFAULT_COURSE_THUMBNAILS['data-science-with-python'];
+  }
+  if (title.includes('market') || title.includes('seo') || title.includes('business') || title.includes('growth')) {
+    return DEFAULT_COURSE_THUMBNAILS['digital-marketing-masterclass'];
+  }
+  if (title.includes('cloud') || title.includes('aws') || title.includes('devops') || title.includes('docker') || title.includes('kubernetes')) {
+    return DEFAULT_COURSE_THUMBNAILS['cloud-architecture-with-aws'];
+  }
+  return DEFAULT_COURSE_THUMBNAILS['full-stack-web-development-bootcamp'];
+};
 
 interface CourseCardProps {
   course: CourseSummary;
@@ -20,26 +51,23 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
       ? Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)
       : 0;
 
+  const thumbnail = getCourseThumbnail(course);
+
   return (
     <div className="group bg-white rounded-xl border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full overflow-hidden">
       {/* Thumbnail Container */}
       <div className="h-52 bg-slate-900 relative overflow-hidden flex items-center justify-center">
-        {course.thumbnailUrl ? (
-          <img
-            src={course.thumbnailUrl}
-            alt={course.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
-          />
-        ) : (
-          <div className="text-center p-6 text-white relative z-10">
-            <div className="w-14 h-14 mx-auto mb-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-sm">
-              <BookOpen className="w-7 h-7 text-blue-200" />
-            </div>
-            <span className="text-[11px] font-bold tracking-widest uppercase text-slate-300">
-              SkillForge
-            </span>
-          </div>
-        )}
+        <img
+          src={thumbnail}
+          alt={course.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
+          loading="lazy"
+          onError={(e) => {
+            // Safe fallback if an external image ever fails
+            (e.target as HTMLImageElement).src =
+              'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80';
+          }}
+        />
 
         {/* Subtle Dark Gradient Overlay for high text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 pointer-events-none" />
@@ -53,7 +81,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 flex items-center space-x-1.5">
-          <span className={`px-2.5 py-1 text-[11px] font-semibold rounded-md border ${levelBadge} shadow-sm`}>
+          <span className={`px-2.5 py-1 text-[11px] font-semibold rounded-md border ${levelBadge} shadow-sm backdrop-blur-sm bg-white/90`}>
             {course.level}
           </span>
         </div>
@@ -70,7 +98,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, isEnrolled }) =>
         {/* Bottom thumbnail duration bar */}
         {course.durationHours && (
           <div className="absolute bottom-3 left-3">
-            <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-slate-950/80 text-white text-[11px] font-medium border border-white/10">
+            <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md bg-slate-950/80 text-white text-[11px] font-medium border border-white/10 backdrop-blur-sm">
               <Clock className="w-3 h-3 text-slate-300" />
               <span>{course.durationHours} Hours</span>
             </span>

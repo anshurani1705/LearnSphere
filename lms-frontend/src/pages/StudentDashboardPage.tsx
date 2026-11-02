@@ -17,6 +17,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { downloadCertificatePdf } from '../utils/fileDownload';
+import { getCourseThumbnail } from '../components/CourseCard';
 
 export const StudentDashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -175,26 +176,36 @@ export const StudentDashboardPage: React.FC = () => {
                   className="bg-white p-5 rounded-xl border border-slate-200 hover:border-slate-300 shadow-sm transition-all flex flex-col justify-between"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
-                        {item.course.level}
-                      </span>
-                      {item.status === 'COMPLETED' ? (
-                        <span className="text-xs font-semibold text-emerald-700 flex items-center space-x-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          <CheckCircle className="w-3.5 h-3.5" />
-                          <span>Complete & Certified</span>
-                        </span>
-                      ) : (
-                        <span className="text-xs font-semibold text-blue-700 flex items-center space-x-1 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                          <Zap className="w-3.5 h-3.5" />
-                          <span>In Progress</span>
-                        </span>
-                      )}
+                    <div className="flex items-start space-x-3.5 mb-3">
+                      <div className="w-16 h-12 rounded-lg bg-slate-900 overflow-hidden shrink-0">
+                        <img
+                          src={getCourseThumbnail(item.course)}
+                          alt={item.course.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                            {item.course.level}
+                          </span>
+                          {item.status === 'COMPLETED' ? (
+                            <span className="text-xs font-semibold text-emerald-700 flex items-center space-x-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                              <CheckCircle className="w-3.5 h-3.5" />
+                              <span>Complete & Certified</span>
+                            </span>
+                          ) : (
+                            <span className="text-xs font-semibold text-blue-700 flex items-center space-x-1 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                              <Zap className="w-3.5 h-3.5" />
+                              <span>In Progress</span>
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-bold text-slate-900 text-base line-clamp-1">
+                          {item.course.title}
+                        </h3>
+                      </div>
                     </div>
-
-                    <h3 className="font-bold text-slate-900 text-base mb-1 line-clamp-1">
-                      {item.course.title}
-                    </h3>
 
                     {/* Progress Bar */}
                     <div className="space-y-1.5 my-3.5">

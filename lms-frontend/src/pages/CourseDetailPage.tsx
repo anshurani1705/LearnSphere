@@ -5,6 +5,7 @@ import { CourseDetail, Lesson, OrderResponse } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { initiateCheckout } from '../utils/razorpay';
 import { MockCheckoutModal } from '../components/payment/MockCheckoutModal';
+import { getCourseThumbnail } from '../components/CourseCard';
 import {
   Clock,
   User,
@@ -193,6 +194,13 @@ export const CourseDetailPage: React.FC = () => {
 
             {/* Mobile / Tablet pricing banner */}
             <div className="lg:hidden bg-slate-800 p-6 rounded-xl border border-slate-700">
+              <div className="relative rounded-lg overflow-hidden h-48 bg-slate-900 mb-4">
+                <img
+                  src={getCourseThumbnail(course)}
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="flex items-baseline space-x-3 mb-4">
                 <span className="text-3xl font-extrabold text-white">
                   ₹{course.price.toLocaleString('en-IN')}
@@ -348,6 +356,13 @@ export const CourseDetailPage: React.FC = () => {
           {/* Right Column: Desktop Sticky Checkout Card */}
           <div className="hidden lg:block sticky top-24">
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-5">
+              <div className="relative rounded-lg overflow-hidden h-44 bg-slate-900">
+                <img
+                  src={getCourseThumbnail(course)}
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div>
                 <div className="flex items-baseline space-x-3 mb-1">
                   <span className="text-3xl font-extrabold text-slate-900">
